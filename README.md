@@ -21,4 +21,4 @@ Acciones:
 
 En corto, con los distritos electorales de tu estado, en formato [GeoJSON](http://geojson.org), así como la información de tu congreso local.
 
-Ve [camaras/ejemplo.md] para obtener más información
+Ve [blob/master/bin/camaras/ejemplo.md](bin/camaras/ejemplo.md) para obtener más información
