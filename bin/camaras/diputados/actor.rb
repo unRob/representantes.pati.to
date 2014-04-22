@@ -97,7 +97,7 @@ module Parser
           next if com.text.squish == ''
           url = endpoints[:base]+com.attr('href')
           
-          comision = Comision.where({"meta.fkey" => url }).first
+          comision = ::Comision.where({"meta.fkey" => url }).first
           next unless comision
 
           puesto = :integrante

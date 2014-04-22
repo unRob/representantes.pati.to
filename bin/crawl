@@ -5,13 +5,14 @@ require_relative 'common.rb'
 
 Dir.chdir(File.dirname(__FILE__))
 
-action = ARGV[0]
-$actions = %w{actores comisiones asistencias}
-$camaras = Dir.glob("camaras/*").map {|c| nombre_camara c.gsub('camaras/', '')}
-
 def nombre_camara str
   str.gsub(/^\d+-'/, '').gsub('-', ' ')
 end
+
+
+action = ARGV[0]
+$actions = %w{actores comisiones asistencias}
+$camaras = Dir.glob("camaras/*").reject {|c| !File.directory?(c) }.map {|c| nombre_camara c.gsub('camaras/', '')}
 
 def usage
   puts <<-EOF

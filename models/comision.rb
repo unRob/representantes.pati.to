@@ -8,6 +8,8 @@ class Comision
   field :oficina, type: String
   field :link, type: String
 
+  field :entidad, type: Integer # para camaras locales
+
   embeds_many :telefonos
   has_and_belongs_to_many :integrantes, class_name: 'Actor'
 
