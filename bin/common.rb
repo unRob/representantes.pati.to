@@ -26,7 +26,7 @@ require_relative 'lib/entidades'
 require_relative 'lib/log'
 require_relative '../helpers/files.rb'
 
-$mongoConfig = YAML.load_file('../config/database.yml')
+$mongoConfig = YAML.load_file(File.expand_path('../../config/database.yml', __FILE__))
 Files.require_dir '../models'
 
 $mongoConfig[:production] = $mongoConfig[:production][:mongodb]

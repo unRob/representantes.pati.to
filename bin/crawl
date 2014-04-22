@@ -3,6 +3,8 @@
 
 require_relative 'common.rb'
 
+Dir.chdir(File.dirname(__FILE__))
+
 action = ARGV[0]
 $actions = %w{actores comisiones asistencias}
 $camaras = Dir.glob("camaras/*").map {|c| c.gsub('camaras/', '')}
