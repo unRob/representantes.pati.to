@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+
+require_relative 'common.rb'
+
+action = ARGV[0]
+$actions = %w{actores comisiones asistencias}
+$camaras = Dir.glob("camaras/*").map {|c| c.gsub('camaras/', '')}
+
+def usage
+  puts <<-EOF
+usage: ./crawl camara:accion [test]
+Cámaras:
+  - #{$camaras.join("\n  - ")}
+Acciones:
+  #{$actions.join(", ")}
+EOF
+  exit 1
+end
+
+if action == nil
+  usage
+end
+
+$nombre_camara, $action = action.strip.split(":")
+if !$camaras.include? $nombre_camara
+  puts "No tengo una cámara llamada <#{$nombre_camara}>"
+  usage
+end
+
+if !$actions.include? $action
+  puts "No se como hacer <#{$action}>"
+  usage
+end
+
+
+START = Time.now
+
+require_relative "actions/#{$action}.rb"
+
+elapsed = Time.now-START
+Log.info "Tardamos: #{elapsed.to_i}s"

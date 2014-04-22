@@ -1,0 +1,60 @@
+html, body {
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+
+body {
+	font: 14px/16px 'Oxygen', Futura, sans-serif;
+	background: #eee url(/img/bg.png);
+}
+
+h1,h2,h3,h4,h5, .button {
+	text-transform: uppercase;
+	font-family: 'Raleway', sans-serif;
+}
+
+h1 {
+	font-size: 1.7em;
+	line-height: 1em;
+	text-shadow: -1px -1px 0px rgba(0,0,0,.4);
+	filter: glow(color=black,strength=2);
+}
+
+h2 {
+	font-size:1.2em;
+	line-height: 1.2em;
+	margin-bottom: 5px;
+	text-transform: none;
+	opacity: .8;
+}
+
+h3 {
+	margin-top: 5px;
+}
+
+a {
+	color: #2BBCFF;
+}
+
+p a:hover {
+	color: #206D91;
+}
+
+p {
+	margin: 10px 0px;
+}
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+ 
+.clearfix {
+	display: block;
+}

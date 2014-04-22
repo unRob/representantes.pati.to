@@ -1,0 +1,92 @@
+@charset "UTF-8";
+body {
+	font-size: 16px;
+	font-family: Raleway, Arial, sans-serif;
+}
+
+@font-face {
+  font-family: "SSPika";
+  src: url('/fonts/ss-pika.eot');
+  src: url('/fonts/ss-pika.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/ss-pika.woff') format('woff'),
+       url('/fonts/ss-pika.ttf')  format('truetype'),
+       url('/fonts/ss-pika.svg#SSPika') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.icono {
+	font-family: "SSPika";
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: none;
+	text-rendering: optimizeLegibility;
+	white-space: nowrap;
+	-webkit-font-feature-settings: "liga";
+	-moz-font-feature-settings: "liga=1";
+	-moz-font-feature-settings: "liga";
+	-ms-font-feature-settings: "liga" 1;
+	-o-font-feature-settings: "liga";
+	font-feature-settings: "liga";
+	-webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+	font-weight: bold;
+}
+
+h1 {
+	color: #ED1E79;
+	font-size: 2.25em;
+	line-height: 1.5em;
+	font-weight: 900;
+	text-align: center;
+}
+
+h2 {
+	font-size: 1.5em;
+	line-height: 1.2em;
+}
+
+p {
+	line-height: 1.2em;
+}
+
+header {
+	text-align: center;
+}
+
+footer {
+	text-align: center;
+	display: block;
+}
+
+#patito {
+	width: 45px;
+	display: block;
+	margin: 0 auto; 
+}
+
+footer a {
+	color: #ED1E79;
+}
+
+footer a:hover {
+	background: #ED1E79;
+	color: #fff;
+}
+
+
+.inside {
+	width: 100%;
+	max-width: 960px;
+	margin: 0 auto;
+	-webkit-transition: all .5s ease-in-out;
+}
+
+@media screen and (max-width: 960px) {
+	.inside {
+		-webkit-transition: all .5s ease-in-out;
+		width: 90%;
+	}
+}

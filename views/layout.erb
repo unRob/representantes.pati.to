@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+
+		<title>¿Quién me representa?</title>
+	
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		
+		<meta property="og:description" content="Encuentra a tu diputado, senador y asambleista." />
+		<meta property="og:title" content="¿Quién me representa?" />
+		<meta property="fb:admins" content="792675081" />
+		<meta property="og:image" content="http://representantes.pati.to/img/og-icon.png" />
+		<meta property="og:url" content="http://representantes.pati.to" />
+		<meta itemprop="name" content="Ubica a tu legislador y dile lo que piensas. Su trabajo es representar tus intereses en la creación de leyes." />
+		<meta itemprop="description" content="Ubica a tu legislador y dile lo que piensas. Su trabajo es representar tus intereses en la creación de leyes." />
+		<meta itemprop="image" content="http://representantes.pati.to/img/og-icon.png" />
+		
+		<link href='http://fonts.googleapis.com/css?family=Raleway:400,900,700,100' rel='stylesheet' type='text/css'>
+		
+		<%
+			path = @request.path_info.split('/')
+			@controller = path[1]
+		%>
+		<link rel="stylesheet" href="/css/<%= _viewName %>.css" />
+		
+		<link rel="shortcut icon" href="/favicon.png" />
+		
+	</head>
+	<body>
+		
+		<div id="container">
+			<%= yield %>
+		</div>
+		
+		<footer>
+			<a href="http://surrealista.mx" title="Partido Surrealista Mexicano">
+				<img src="/img/pato.svg" title="patito" id="patito"/>
+				Partido Surrealista Mexicano
+			</a>
+		</footer>
+
+		<script src="/js/<%= _viewName %>.js"></script>
+		<script type="text/javascript">
+
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-37922009-1']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+
+		</script>
+	</body>
+</html>

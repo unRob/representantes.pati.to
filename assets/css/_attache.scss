@@ -1,0 +1,144 @@
+// https://raw.github.com/jaimerodas/attache/master/_functions.scss
+@mixin clearfix() {
+	*zoom: 1;
+	&:before,
+	&:after {
+		content: ' ';
+		display: table;
+	}
+
+	&:after {
+		clear: both;
+	}
+}
+
+// 
+// CSS3 Madres
+// 
+@mixin rounded($vert, $horz, $radius: 5px) {
+	border-#{$vert}-#{$horz}-radius: $radius;
+	-moz-border-radius-#{$vert}#{$horz}: $radius;
+	-webkit-border-#{$vert}-#{$horz}-radius: $radius;
+}
+@mixin round-top($radius: 5px) {
+	@include rounded(top, left, $radius);
+	@include rounded(top, right, $radius);
+}
+@mixin round-bottom($radius: 5px) {
+	@include rounded(bottom, left, $radius);
+	@include rounded(bottom, right, $radius);
+}
+@mixin border-radius($radius: 5px) {
+	-webkit-border-radius: $radius;
+	   -moz-border-radius: $radius;
+	        border-radius: $radius;
+}
+@mixin box-shadow($args...) {
+	-webkit-box-shadow: $args;
+	   -moz-box-shadow: $args;
+	        box-shadow: $args;
+}
+@mixin box-sizing($arg) {
+	-webkit-box-sizing: $arg;
+	   -moz-box-sizing: $arg;
+	        box-sizing: $arg;
+}
+@mixin transition($args...) {
+	-webkit-transition: $args;
+	   -moz-transition: $args;
+	     -o-transition: $args;
+	        transition: $args;
+}
+@mixin transition-transform($duration, $timingfn, $delay: 0) {
+	-webkit-transition: -webkit-transform $duration $timingfn $delay;
+	   -moz-transition: -moz-transform $duration $timingfn $delay;
+	     -o-transition: -o-transform $duration $timingfn $delay;
+	        transition: transform $duration $timingfn $delay;
+}
+@mixin scale($ratio) {
+	-webkit-transform: scale($ratio);
+	   -moz-transform: scale($ratio);
+	    -ms-transform: scale($ratio);
+	     -o-transform: scale($ratio);
+	     	transform: scale($ratio);
+}
+@mixin rotate($angle) {
+	-webkit-transform: rotate($angle);
+	   -moz-transform: rotate($angle);
+	    -ms-transform: rotate($angle);
+	     -o-transform: rotate($angle);
+	     	transform: rotate($angle);
+}
+@mixin user-select($tipo: none) {
+	-webkit-user-select: $tipo;
+	   -moz-user-select: $tipo;
+	    -ms-user-select: $tipo;
+}
+
+//
+// Gradients
+//
+@mixin vertical-gradient($start, $stop) {
+	$ie-start: ie_hex_str($start);
+	$ie-stop:  ie_hex_str($stop);
+
+	background-color: $stop;
+	background-color: transparent;
+	background-image: -moz-linear-gradient(top, $start, $stop); // FF 3.6+
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from($start), to($stop)); // Safari 4+, Chrome 2+
+    background-image: -webkit-linear-gradient(top, $start, $stop); // Safari 5.1+, Chrome 10+
+    background-image: -o-linear-gradient(top, $start, $stop); // Opera 11.10
+    background-image: linear-gradient(to bottom, $start, $stop); // Standard, IE10
+    background-repeat: repeat-x;
+	filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#{$ie-start}', EndColorStr='#{$ie-stop}', GradientType=0)"; // IE9 para abajo
+}
+@mixin horizontal-gradient($start, $stop) {
+	$ie-start: ie_hex_str($start);
+	$ie-stop:  ie_hex_str($stop);
+
+	background-color: $stop;
+	background-color: transparent;
+    background-image: -moz-linear-gradient(left, $start, $stop); // FF 3.6+
+    background-image: -webkit-gradient(linear, 0 0, 100% 0, from($start), to($stop)); // Safari 4+, Chrome 2+
+    background-image: -webkit-linear-gradient(left, $start, $stop); // Safari 5.1+, Chrome 10+
+    background-image: -o-linear-gradient(left, $start, $stop); // Opera 11.10
+    background-image: linear-gradient(to right, $start, $stop); // Standard, IE10
+    background-repeat: repeat-x;
+    filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#{$ie-start}', EndColorStr='#{$ie-stop}', GradientType=1)"; // IE9 para abajo
+}
+@mixin gradient-bar($start, $stop, $textColor, $textShadow) {
+	color: $textColor;
+	text-shadow: $textShadow;
+
+	@include vertical-gradient($start, $stop);
+	border-color: $stop $stop darken($stop, 15%);
+}
+
+// 
+// Media Queries
+//
+@mixin hidpi($ratio: 1.3) { // 1.3 para targetear el Nexus 7 (2012)
+    @media only screen and (-webkit-min-device-pixel-ratio: $ratio),
+           only screen and (-o-min-device-pixel-ratio: $ratio/1),
+           only screen and (min--moz-device-pixel-ratio: $ratio),
+           only screen and (min-device-pixel-ratio: $ratio),
+           only screen and (min-resolution: #{round($ratio*96)}dpi),
+           only screen and (min-resolution: #{$ratio}dppx) {
+      @content;
+    }
+}
+
+
+// 
+// Puto IE puto
+// 
+@mixin ie7-inline-block {
+	*display: inline;
+	*zoom: 1;
+}
+@mixin ie7-restore-left-whitespace {
+	*margin-left: 0.3em;
+	&:first-child {
+		*margin-left: 0;
+	}
+}
