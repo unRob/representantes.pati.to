@@ -7,7 +7,11 @@ Dir.chdir(File.dirname(__FILE__))
 
 action = ARGV[0]
 $actions = %w{actores comisiones asistencias}
-$camaras = Dir.glob("camaras/*").map {|c| c.gsub('camaras/', '')}
+$camaras = Dir.glob("camaras/*").map {|c| nombre_camara c.gsub('camaras/', '')}
+
+def nombre_camara str
+  str.gsub(/^\d+-'/, '').gsub('-', ' ')
+end
 
 def usage
   puts <<-EOF
@@ -25,6 +29,8 @@ if action == nil
 end
 
 $nombre_camara, $action = action.strip.split(":")
+$nombre_camara = nombre_camara($nombre_camara)
+
 if !$camaras.include? $nombre_camara
   puts "No tengo una cámara llamada <#{$nombre_camara}>"
   usage
@@ -38,6 +44,7 @@ end
 
 START = Time.now
 
+$nombre_camara = $nombre_camara.gsub(/\s/, '-')
 require_relative "actions/#{$action}.rb"
 
 elapsed = Time.now-START

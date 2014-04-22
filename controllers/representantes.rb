@@ -23,17 +23,6 @@ class RepresentantesApp < Sinatra::Base
       actores = Actor.deDistritos(distritos)
       puts actores.count
 
-      #actores = []
-      #distritos.each do |distrito|
-      #  
-      #  puts actores.count
-      #  actores.each do |actor|
-      #    actor.id = actor.id.to_s
-      #    puts actor
-      #    actores << actor
-      #  end
-      #end
-
       json({
         representantes: actores.reverse,
         coords: coords,

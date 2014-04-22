@@ -37,7 +37,6 @@ class Actor
 
   def self.deDistritos(distritos)
     dtos = distritos.map {|dto| dto.id}
-    dtos << 'sf'+distritos.first.entidad
     any_in("distrito.id" => dtos).desc(:eleccion)
   end
 
@@ -46,13 +45,15 @@ class Actor
   end
 
   def congreso
-    return "Diputado #{tipo}" unless tipo == 'senador'
-    "Senador"
+    return case camara
+      when "diputados" then 'Diputado Federal'
+      when "senado" then 'Senador'
+      when "local" then 'Diputado local'
+    end
   end
 
   def distrito_json
-    return "Distrito #{distrito['id'].split(/-/)[1]}" unless tipo == 'senador'
-    entidad
+    return "Distrito #{distrito['id'].split(/-/)[1]}"
   end
 
   def as_json(options={})
