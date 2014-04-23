@@ -13,10 +13,18 @@ ROMAN_MAP = {
   900 => "CM",
   1000 => "M"
 }
-ROMAN_NUMERALS = Array.new(50) do |index|
+ROMAN_NUMERALS = Array.new(100) do |index|
     target = index + 1
     ROMAN_MAP.keys.sort { |a, b| b <=> a }.inject("") do |roman, div|
         times, target = target.divmod(div)
         roman << ROMAN_MAP[div] * times
     end
+end
+
+class String
+
+  def to_arabigo
+    ROMAN_NUMERALS.index(self)+1
+  end
+
 end

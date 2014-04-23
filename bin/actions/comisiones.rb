@@ -1,7 +1,7 @@
-require_relative "../camaras/#{$nombre_camara}/endpoints.rb"
-require_relative "../camaras/#{$nombre_camara}/comisiones.rb"
+require_relative "../camaras/#{$camara}/endpoints.rb"
+require_relative "../camaras/#{$camara}/comisiones.rb"
 
-camara = "Parser::#{$nombre_camara.titleize}".constantize
+camara = "Parser::#{$camara.to_constant}".constantize
 
 save = true
 if ARGV[1] == 'test'
@@ -14,6 +14,7 @@ Log.info "Buscando comisiones... "
 comisiones = Crawler.new camara.endpoints[:lista_comisiones]
 comisiones.requests = parser.requests
 
+
 $count = 0
 
 comisiones.run do |response, request|
@@ -21,7 +22,7 @@ comisiones.run do |response, request|
   begin
     parser.parse(response.body, request) do |comision|
       begin
-        #Comision.create!(comision) if save
+        Comision.create!(comision) if save
         Log.debug(comision[:nombre]) unless save
       rescue Exception => e
         puts comision[:nombre]

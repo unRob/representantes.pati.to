@@ -1,6 +1,7 @@
 class Distrito
 	include Mongoid::Document
 
+  field :_id, type: String, overwrite: true
   field :tipo, type: String
   field :entidad, type: String
   field :secciones, type: Array

@@ -28,7 +28,7 @@ module Parser
 
         actor[:partido] = imgs[0].attr('alt').downcase
         actor[:entidad] = entidadNum
-        actor[:distrito] = "sf-#{entidadNum}"
+        actor[:distrito] = "sf-#{entidadNum || ln}" #lista nacional
         actor[:tipo_distrito] = "federal"
 
         img_url = imgs[1].attr('src')
@@ -63,7 +63,7 @@ module Parser
           end
         end
 
-        actor[:suplente] = info[1].at_css('td[colspan="3"] div[align=left]').text.strip.gsub('Suplente: ', '').gsub(/\s{2,}/, ' ')
+        actor[:suplente] = info[1].at_css('td[colspan="3"] div[align=left]').text.strip.gsub('Suplente: ', '').squish
         
         contacto = data.css('.expande')
         contacto = contacto.inner_html.split('<br>')

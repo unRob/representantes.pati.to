@@ -5,14 +5,26 @@ require_relative 'common.rb'
 
 Dir.chdir(File.dirname(__FILE__))
 
-def nombre_camara str
-  str.gsub(/^\d+-'/, '').gsub('-', ' ')
+class Camara
+  attr_accessor :folder
+  def initialize str
+    @folder = str
+  end
+  def to_constant
+    @folder.gsub(/^\d+-/, '').gsub('-', '')
+  end
+  def pretty
+    @folder.gsub(/^\d+-/, '').gsub('-', ' ')
+  end
+  def to_s
+    @folder
+  end
 end
 
 
 action = ARGV[0]
 $actions = %w{actores comisiones asistencias}
-$camaras = Dir.glob("camaras/*").reject {|c| !File.directory?(c) }.map {|c| nombre_camara c.gsub('camaras/', '')}
+$camaras = Dir.glob("camaras/*").reject {|c| !File.directory?(c) }.map {|c| c.gsub('camaras/', '')}
 
 def usage
   puts <<-EOF
@@ -29,11 +41,11 @@ if action == nil
   usage
 end
 
-$nombre_camara, $action = action.strip.split(":")
-$nombre_camara = nombre_camara($nombre_camara)
+$camara, $action = action.strip.split(":")
+$camara = Camara.new $camara
 
-if !$camaras.include? $nombre_camara
-  puts "No tengo una cámara llamada <#{$nombre_camara}>"
+if !$camaras.include? $camara.folder
+  puts "No tengo una cámara llamada <#{$camara}>"
   usage
 end
 
@@ -45,7 +57,6 @@ end
 
 START = Time.now
 
-$nombre_camara = $nombre_camara.gsub(/\s/, '-')
 require_relative "actions/#{$action}.rb"
 
 elapsed = Time.now-START

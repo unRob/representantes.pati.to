@@ -21,4 +21,6 @@ group :development, :test do
   gem 'typhoeus'
   gem 'shotgun'
   gem 'rspec'
+  gem 'roo'
+  gem 'spreadsheet'
 end

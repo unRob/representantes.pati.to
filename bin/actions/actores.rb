@@ -1,12 +1,18 @@
-require_relative "../camaras/#{$nombre_camara}/endpoints.rb"
-require_relative "../camaras/#{$nombre_camara}/lista.rb"
-require_relative "../camaras/#{$nombre_camara}/actor.rb"
+require_relative "../camaras/#{$camara}/endpoints.rb"
+require_relative "../camaras/#{$camara}/lista.rb"
+require_relative "../camaras/#{$camara}/actor.rb"
 
-camara = "Parser::#{$nombre_camara.titleize}".constantize
+camara = "Parser::#{$camara.to_constant}".constantize
 
+TEST = false
 if ARGV[1] == 'test'
-  camara.test(); 
-  exit;
+  Log.info "Corriendo pruebas"
+  if camara.respond_to?(:test)
+    camara.test(); 
+    exit
+  else
+    TEST = true
+  end
 end
 
 Log.info "Buscando actores... "
@@ -34,10 +40,16 @@ actores.run do |response, request|
   end
 
   begin
-    actor = Actor.create!(data)
-    actor.puestos.each do |puesto|
-      puesto.comision.integrantes << actor
-      puesto.comision.save!
+
+    unless TEST
+      actor = Actor.create!(data)
+      actor.puestos.each do |puesto|
+        puesto.comision.integrantes << actor
+        puesto.comision.save!
+      end
+    else
+      actor = Actor.new data
+      Log.info "#{actor.nombre} (#{actor.partido}) - #{actor.distrito}"
     end
 
   rescue Exception => e
