@@ -53,7 +53,7 @@ class Crawler
           Log.error "Timeout #{url}"
         else
           Log.error "Request Error: #{r.code}"
-          Log.error req[:url]
+          Log.error r[:url]
         end
       end
 

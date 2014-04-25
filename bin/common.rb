@@ -2,8 +2,8 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'HTTParty'
-require 'Nokogiri'
+require 'httparty'
+require 'nokogiri'
 require 'active_support'
 require 'active_support/inflector' #mb_chars
 require 'active_support/core_ext/string/filters' #squish
