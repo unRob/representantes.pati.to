@@ -52,7 +52,7 @@ class Crawler
         elsif res.timed_out?
           Log.error "Timeout #{url}"
         else
-          Log.error "Request Error: #{r.code}"
+          Log.error "Request Error: #{res.code}"
           Log.error url
         end
       end
