@@ -22,9 +22,16 @@ module Log
   end
 
   private
+  @@colors = {
+    info: :green,
+    warn: :yellow,
+    error: :red,
+    debug: :cyan
+  }
 
   def self.header(type)
-    "[#{type.upcase}]   #{Time.now}"
+    tipo = "[#{type}]".ljust(7, ' ').upcase.bold.send(@@colors[type])
+    "#{tipo} #{Time.now}"
   end
 
   def self.write(type, msg, nl)

@@ -23,4 +23,5 @@ group :development, :test do
   gem 'rspec'
   gem 'roo'
   gem 'spreadsheet'
+  gem 'colored'
 end

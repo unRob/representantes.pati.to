@@ -12,12 +12,40 @@ crawler = Crawler.new ''
 crawler.requests = actores.map { |a| {url: a.imagen, actor: a} }
 crawler.url_parser = -> (request, base) { request[:url]}
 
+
 crawler.run do |img, req|
+
   if img.success?
-    #Log.info req[:actor].distrito
+    begin
+      data = StringIO.new img.body
+      Log.info req[:url]
+      #exit
+      meta = {
+        content_type: img.headers['Content-Type'],
+        metadata: {
+          fkey: req[:url],
+          actor: req[:actor].id,
+        }
+      }
+      meta[:metadata][:etag] = img.headers['ETag'] if img.headers['ETag']
+      meta[:metadata][:last_modified] = img.headers['Last-Modified'] if img.headers['Last-Modified']
+      saved = $grid.put(data, meta)
+      
+      req[:actor].imagen = saved.id
+      req[:actor].save!
+
+    rescue Moped::Errors::OperationFailure => e
+      Log.warn "Imagen repetida... #{req[:url]}, #{req[:actor].id}"
+    rescue Exception => e
+      Log.error "Otro Error"
+      Log.error e.inspect
+      Log.error e.message
+      Log.error e.backtrace.join("\n")
+      exit
+    end
   else
     Log.error "No encontré #{req[:url]} (#{req[:actor].meta.fkey})"
     req[:actor].imagen = nil
-    #req[:actor].save
+    req[:actor].save
   end
 end

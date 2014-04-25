@@ -20,17 +20,17 @@ class Crawler
     @url_parser = -> (request, b) do
       delim = /(\{\{[^}]+\}\})/
       delim_chars = /[{}]+/
-			str = b.gsub(delim) {|match|
+      str = b.gsub(delim) {|match|
         key = match.gsub(delim_chars, '')
         request[key.to_sym]
       }
       str
-		end
+    end
 
     self
   end
 
-	def url_para request
+  def url_para request
     self.url_parser.call(request, base)
   end
 
@@ -38,11 +38,25 @@ class Crawler
     requests.each do |request|
       url = url_para(request)
       #puts url
-      req = Typhoeus::Request.new(url)
+      h = {
+        'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/537.75.14',
+
+      }
+      #Typhoeus::Config.verbose = true
+      req = Typhoeus::Request.new(url, timeout: 60, headers: h)
       req.on_complete do |r|
         request[:url] = url
-        yield r, request
+        if r.success?
+          yield r, request
+        elsif r.timed_out?
+          Log.error "Timeout #{url}"
+        else
+          Log.error "Request Error: #{r.code}"
+          Log.error req[:url]
+        end
       end
+
       $hydra.queue(req)
     end
 

@@ -28,6 +28,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
+    colored (1.2)
     connection_pool (2.0.0)
     diff-lcs (1.2.5)
     ethon (0.7.0)
@@ -107,6 +108,7 @@ DEPENDENCIES
   bson
   bson_ext
   coffee-script
+  colored
   httparty
   mongo
   mongoid!

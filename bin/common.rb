@@ -14,6 +14,7 @@ require 'json'
 require 'open-uri'
 require 'typhoeus'
 require 'yaml'
+require 'colored'
 I18n.enforce_available_locales = false
 
 RUN_ENV = (ENV['RUN_ENV'] || 'development').to_sym

@@ -19,7 +19,6 @@ class RepresentantesApp < Sinatra::Base
         return json({status: 'error', razon: 'No tengo distritos para esta sección'})
       end
 
-      dtos = distritos
       actores = Actor.deDistritos(distritos)
       puts actores.count
 

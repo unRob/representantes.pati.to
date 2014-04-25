@@ -24,11 +24,12 @@ module Parser
         imgs = data.css('div[align=center] > img')
 
         entidad = imgs[2].attr('alt').downcase
-        entidadNum = $entidades.index(entidad)
+        entidadNum = $entidades.index(entidad)+1
 
         actor[:partido] = imgs[0].attr('alt').downcase
+        actor[:partido] = nil if actor[:partido] == 'sg'
         actor[:entidad] = entidadNum
-        actor[:distrito] = "sf-#{entidadNum || ln}" #lista nacional
+        actor[:distrito] = "sf-#{entidadNum || 'ln'}" #lista nacional
         actor[:tipo_distrito] = "federal"
 
         img_url = imgs[1].attr('src')

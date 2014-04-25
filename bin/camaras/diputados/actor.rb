@@ -73,7 +73,7 @@ module Parser
         actor[:entidad] = entidad
         distrito = texto(rows[3])
         distrito = "c"+distrito if (actor[:eleccion] == 'representación proporcional')
-        actor[:distrito] = "f#{entidad}-#{distrito}"
+        actor[:distrito] = "df-#{entidad}-#{distrito}"
         actor[:cabecera] = texto(rows[4])
         actor[:curul] = texto(rows[5])
         actor[:suplente] = texto(rows[6]).gsub(/Suplente:\s+/, '')

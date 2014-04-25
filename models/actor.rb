@@ -34,10 +34,12 @@ class Actor
   index({"meta.fkn" => 1}, {unique: true})
   index({nombre: 1})
   index({entidad: 1})
+  index({distrito: 1})
 
   def self.deDistritos(distritos)
     dtos = distritos.map {|dto| dto.id}
-    any_in("distrito.id" => dtos).desc(:eleccion)
+    puts dtos
+    any_in("distrito" => dtos).desc(:eleccion)
   end
 
   def stub
@@ -59,6 +61,7 @@ class Actor
   def as_json(options={})
     attrs = super(options)
     attrs["id"] = attrs["_id"].to_s
+    attrs['imagen'] = attrs['imagen'].to_s if attrs['imagen']
     attrs["stub"] = stub
     attrs
   end

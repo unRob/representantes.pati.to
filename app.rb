@@ -1,21 +1,5 @@
 # encoding: utf-8
-require 'rubygems'
-require 'bundler/setup'
 
-require 'sinatra'
-require 'sinatra/base'
-#require 'sinatra/assetpack'
-require 'sinatra/config_file'
-require 'sinatra/cookies'
-require 'sinatra/json'
-require 'sinatra/multi_route'
-require 'sinatra/namespace'
-require 'i18n'
-
-require 'json'
-require 'mongoid'
-require 'mongoid/grid_fs'
-require 'sass'
 require 'uri'
 
 class RepresentantesApp < Sinatra::Base
@@ -58,7 +42,7 @@ class RepresentantesApp < Sinatra::Base
     $settings = settings
 
     Mongoid.configure do |config|
-      config.sessions= settings.mongodb['sessions']
+      config.sessions = settings.mongodb[:sessions]
     end
 
     set :default_locale, 'es-mx'

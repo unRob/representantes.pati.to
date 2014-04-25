@@ -13,6 +13,8 @@ class Seccion
   field :tipo, type: Integer
   field :coords, type: Hash
 
+  index({coords: '2dsphere'})
+
   def self.paraCoordenadas coords
     self.geo_spacial(:coords.intersects_point => coords).first
   end

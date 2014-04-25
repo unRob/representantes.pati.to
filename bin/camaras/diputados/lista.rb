@@ -8,7 +8,7 @@ module Parser
 
       def initialize
         @ids = []
-        request(mod.endpoints[:lista]) do |data|
+        request(Diputados.endpoints[:lista]) do |data|
           doc = Nokogiri::HTML(data)
           doc.encoding = 'utf-8'
           @ids = doc.css('.linkVerde').map { |link|

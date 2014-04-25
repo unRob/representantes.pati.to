@@ -10,7 +10,7 @@ class Distrito
   index({secciones: 1})
 
   def self.deSeccion seccion
-    where(secciones: seccion.id)
+    where(secciones: seccion.id).without(:secciones)
   end
 
 end

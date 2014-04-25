@@ -57,16 +57,14 @@ xls.sheet(0).each do |d|
   if data[0]
     int = data[0].to_arabigo
     puts "Distrito #{int} #{data[0]}"
-    distritos[int] = {
+    distritos[int] ||= {
       _id: "dl-9-#{int}",
       tipo: :local,
       entidad: 9,
-      secciones: secciones(data[1])
+      secciones: []
     }
-    
-  else
-    distritos[int][:secciones] += secciones(data[1])
   end
+  distritos[int][:secciones] += secciones(data[1])
 end
 
 count = 0

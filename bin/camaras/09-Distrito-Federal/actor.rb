@@ -6,7 +6,7 @@ module Parser
     class Actor
 
       def initialize
-        @partidos = [nil, 'prd', 'pan', 'pri', 'pt', 'verde', 'panal', nil, 'mc']
+        @partidos = [nil, 'prd', 'pan', 'pri', 'pt', 'pvem', 'panal', nil, 'mc']
         @telefonos = %w{51301900 51301980}
       end
 
@@ -47,7 +47,7 @@ module Parser
           eleccion = 'representación proporcional'
         end
         actor[:eleccion] = eleccion
-        actor[:distrito] = "#dl-9-#{distrito}"
+        actor[:distrito] = "dl-9-#{distrito}"
 
         ext = contacto.at_css('li:nth-child(2)').text.split(':').last.squish
         @telefonos.each do |tel|

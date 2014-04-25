@@ -11,7 +11,7 @@ class Camara
     @folder = str
   end
   def to_constant
-    @folder.gsub(/^\d+-/, '').gsub('-', '')
+    @folder.gsub(/^\d+-/, '').titleize.gsub(' ', '')
   end
   def pretty
     @folder.gsub(/^\d+-/, '').gsub('-', ' ')
