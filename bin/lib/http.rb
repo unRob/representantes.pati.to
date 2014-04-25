@@ -45,15 +45,15 @@ class Crawler
       }
       #Typhoeus::Config.verbose = true
       req = Typhoeus::Request.new(url, timeout: 60, headers: h)
-      req.on_complete do |r|
+      req.on_complete do |res|
         request[:url] = url
-        if r.success?
-          yield r, request
-        elsif r.timed_out?
+        if res.success?
+          yield res, request
+        elsif res.timed_out?
           Log.error "Timeout #{url}"
         else
           Log.error "Request Error: #{r.code}"
-          Log.error r[:url]
+          Log.error url
         end
       end
 
