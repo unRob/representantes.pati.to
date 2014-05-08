@@ -28,6 +28,8 @@ body.covered {
 }
 
 .covered #main-container {
+	position: fixed;
+	width: 100%;
 	-webkit-filter: grayscale(100%) blur(2px);
 	   -moz-filter: grayscale(100%) blur(2px);
 	    -ms-filter: grayscale(100%) blur(2px);
