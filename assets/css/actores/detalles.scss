@@ -61,21 +61,6 @@
 .link {
 	font-size: 24px;
 	color: $gris-medio;
-
-	&:hover {
-		&.facebook {
-			color: #3b5998;
-		}
-		&.youtube {
-			color: #cd201f;
-		}
-		&.twitter {
-			color: #00acee;
-		}
-		&.linkedin {
-			color: #0e76a8;
-		}
-	}
 }
 
 .info-actor {

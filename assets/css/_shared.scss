@@ -1,4 +1,6 @@
 @charset "UTF-8";
+@import "_variables";
+
 body {
     font-size: 16px;
     font-family: Raleway, Arial, sans-serif;
@@ -57,8 +59,31 @@ body {
     -o-font-feature-settings: "liga";
     font-feature-settings: "liga";
     -webkit-font-smoothing: antialiased;
+
+    color: $gris-medio;
+
+    &:hover {
+      &.facebook {
+        color: #3b5998;
+      }
+      &.youtube {
+        color: #cd201f;
+      }
+      &.twitter {
+        color: #00acee;
+      }
+      &.linkedin {
+        color: #0e76a8;
+      }
+    }
 }
 
+nav#social {
+  margin: .5em;
+  & .icono {
+    font-size: 18px;
+  }
+}
 
 h1, h2, h3 {
     font-weight: bold;

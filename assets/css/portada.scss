@@ -41,6 +41,10 @@ body.covered {
 	        @include transition(filter .2s ease-in,         transform .2s ease-in);
 }
 
+#representantes {
+	margin-bottom: 2em;
+}
+
 #cover {
 	overflow-y: scroll;
 	-webkit-overflow-scrolling: touch;
