@@ -1,0 +1,49 @@
+<article class="hoja item-detalles">
+
+	<header>
+		<h1 class="item-nombre">¿Qué pedo con esto?</h2>
+		<summary>Una breve descripción de este asunto</summary>
+	</header>
+
+
+	<section class="item-info">
+
+		<p>Representantes.pati.to es la manera que tuve de responder a la pregunta: <strong>¿Quién me representa?</strong>. Es una pregunta estúpidamente complicada de responder si, como yo, no tienes un buen entendimiento del sistema electoral mexicano.</p>
+
+		<hr/>
+	</section>
+
+	<section class="item-info">
+		<h2>¿Cómo funciona este pedo?</h2>
+
+		<p>Como siempre, hay de dos sopas:</p>
+		
+		<h3>La sencilla</h3>
+		
+		<p>A través de la magia de los internets, averiguamos tu ubicación geográfica (o te pedimos que la señales en el mapa), y buscamos en nuestra base de datos a qué distritos electorales (locales y federales) perteneces. Con esto, te mostramos qué representantes corresponden a dichos distritos.</p>
+		
+		<p>No guardamos ningún tipo de registro sobre tu ubicación geográfica en el sistema, sólo se transmite a nuestro servidor, en el cual no se almancena ni se distribuye a terceras partes. Osea pues, no la hacemos de pedo con tus datos personales. Sin emabargo, si llevamos un registro de visitas con algunos datos que no te hacen personalmente identificable.</p>
+		
+		<h3>La ñoña</h3>
+		<p>Esta aplicación está hecha en <a href="http://sinatrarb.com">sinatra.rb</a>, corriendo sobre <a href="http://nginx.org">Nginx</a>+<a href="https://www.phusionpassenger.com">Passenger</a> en una chulísima máquina virtual hospedada en <a href="http://rackspace.com">Rackspace</a>. Los datos son almacenados en <a href="http://mongodb.org">MongoDB</a>.</p>
+
+		<p>Usamos el Geolocation API que trajo HTML5 hace algunas navidades, para preguntarle al backend por los distritos correspondientes, y este regresa en JSON la lista de representantes correspondientes.</p>
+
+		<hr/>
+	</section>
+
+	<section class="item-info">
+
+		<h2>¿Cómo contribuyo a este pedo?</h2>
+
+		<p>Si deseas ayudar a completar la lista de representantes locales, la manera más rápida de empezar es por el <a href="https://github.com/unRob/representantes.pati.to" title="Repo de github">repo en github</a>.</p>
+
+		<hr/>
+	</section>
+
+	<section class="item-info">
+		<h2>¿Y ustedes qué? ¿O qué pedo?</h2>
+		<p>Nosotros somos el <a href="http://surrealista.mx">Partido Surrealista Mexicano</a>, un pequeño taller de desarrollo de software.</p>
+	</section>
+	
+</article>

@@ -62,4 +62,8 @@ class RepresentantesApp < Sinatra::Base
     view :portada
   end
 
+  get '/acerca-de' do
+    view :acerca
+  end
+
 end

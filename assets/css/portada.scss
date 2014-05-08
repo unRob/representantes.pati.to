@@ -16,6 +16,7 @@ body.covered {
 }
 
 #main-container {
+	padding-bottom: 1em;
 	position: relative;
 	background: #fff;
 	@include transition(-webkit-filter .2s ease-out, -webkit-transform .2s ease-out);
@@ -23,7 +24,6 @@ body.covered {
 	    @include transition(-ms-filter .2s ease-out,     -ms-transform .2s ease-out);
 	     @include transition(-o-filter .2s ease-out,      -o-transform .2s ease-out);
 	        @include transition(filter .2s ease-out,         transform .2s ease-out);
-    padding-bottom: 1em;
     @include transform(scale(1));
 }
 
