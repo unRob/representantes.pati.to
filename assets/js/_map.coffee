@@ -2,12 +2,12 @@ Mapa = (container, options)->
 	@canvas = container.get(0)
 	@latLng = new google.maps.LatLng(options.latitude, options.longitude)
 	@instance = @iniciaMapa()
-	@marker = @agregaMarcador()
+	@marker = @agregaMarcador(@latLng)
 	@callbacks = []
 	@polygons = []
 
 	self = this
-	google.maps.event.addListenerOnce @instance, 'tilesloaded', ()->
+	google.maps.event.addListenerOnce @instance, 'tilesloaded', ()=>
 		self.trigger('map.loaded')
 
 	google.maps.event.addDomListener window, "resize", ()->
@@ -31,7 +31,6 @@ Mapa::on = (evt, callback)->
 	true
 
 Mapa::trigger = (evt, data={})->
-	console.log "trigger #{evt}"
 	cbs = @callbacks[evt]
 	return false unless cbs
 	for cb in cbs
@@ -54,6 +53,7 @@ Mapa::iniciaMapa = ()->
 	map
 
 Mapa::agregaMarcador = (latLng)->
+	console.log("agregando marcador @ #{latLng.lat()}, #{latLng.lng()}")
 	new google.maps.Marker({
 		position: latLng,
 		map: @instance,
@@ -62,13 +62,15 @@ Mapa::agregaMarcador = (latLng)->
 	})
 
 Mapa::pan = (coords)->
+	if !coords.hasOwnProperty('latitude')
+		coords =
+			latitude: coords.lat(),
+			longitude: coords.lng()
 	@instance.panTo(new google.maps.LatLng(coords.latitude,coords.longitude));
 	@instance.setZoom(16);
 
 Mapa::setPolygons = (polygons)->
-	console.log 'overlay'
 	for overlay in @polygons
-
 		overlay.setMap(null)
 
 	@polygons = []
@@ -84,9 +86,17 @@ Mapa::setPolygons = (polygons)->
 		o = new google.maps.Polygon(opts)
 		o.setMap(@instance)
 		@polygons.push o
+
 	true
 
 
+Mapa::centroid = ()->
+	bounds = new google.maps.LatLngBounds()
+	
+	for path in @polygons[0].getPath().getArray()
+		bounds.extend(path)
+
+	return bounds.getCenter();
 
 Mapa::overlay = null
 Mapa.estilo = [

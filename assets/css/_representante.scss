@@ -1,5 +1,17 @@
 @import "attache";
 
+.actor-sumario .camara {
+	text-transform: uppercase;
+	position: absolute;
+	left: -60px;
+	top: 60px;
+	display: block;
+	width: 110px;
+	text-align: center;
+	@include rotate(-90deg);
+	color: $gris-claro;
+}
+
 .headshot-container {
 	float: left;
 	width: auto;
@@ -12,6 +24,7 @@
 	border-radius: 110px;
 	border: 5px solid #eee;
 	margin: 0 auto;
+	@include transform(scale(1));
 	@include transition(all .5s ease-in-out);
 
 	&.pan   {border-color: #06338e;}
@@ -29,7 +42,7 @@
 	border-radius: 110px;
 	box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
 	background-size: 100%;
-	@include transition(all .5s ease-in-out);
+	@include transition(all .2s ease-in-out);
 }
 
 
@@ -44,8 +57,17 @@
 }
 
 .representante:hover {
-	background: #eee;
-	@include transition(all .5s ease-in-out);
+	
+	& a {
+		color: $rosa;
+	}
+	
+
+	& .headshot-image {
+		@include transform(scale(1.1));
+		@include transition(all .2s ease-in-out);
+	}
+	
 }
 
 .representante a {
@@ -64,23 +86,6 @@
 	float: right;
 }
 
-@-webkit-keyframes headshot {
-	0% {width: auto; text-align: center;float: none;}
-	99% {width: 100%; display: block; text-align: center;float: none;}
-	100% {width: 100%; display: block; float: none !important; text-align: center;margin-bottom: 20px;}
-}
-
-.representante-detallado .headshot-container{
-
-	-webkit-animation: headshot .5s ease-in-out forwards;
-	-webkit-animation-iteration-count: 1;
-}
-
-@-webkit-keyframes sumario {
-	0% {opacity: 0; display: block; text-align: center }
-	50% {opacity: 0;width: 100%; display: block;}
-	100% {opacity: 1; width: 100%;display: block;}
-}
 
 .representante-detallado .acciones-contacto {
 	display: none;
@@ -93,7 +98,7 @@
 	-webkit-animation: sumario 1s ease-in-out;
 }
 
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 660px) {
 	.headshot {
 		width: 70px;
 		height: 70px;
@@ -106,5 +111,12 @@
 		height: 70px;
 		border-radius: 70px;
 		@include transition(all .5s ease-in-out);
+	}
+
+	.actor-sumario .camara {
+		left: -35px;
+		top: 45px;
+		width: 70px;
+		font-size: 13px;
 	}
 }

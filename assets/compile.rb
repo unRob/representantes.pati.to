@@ -2,6 +2,7 @@
 
 require 'sass'
 require 'listen'
+require 'fileutils'
 require_relative 'assets2'
 
 absPath = File.dirname(File.expand_path File.dirname(__FILE__))
@@ -11,6 +12,16 @@ $dst = "#{absPath}/public"
 Assets.root = $root
 
 def save path, contents
+  dir = File.dirname path
+  if !File.directory? dir
+    
+    begin
+      FileUtils.mkdir_p dir, {verbose: true}
+    rescue Exception
+      puts "No pude crear el directorio #{dir}"
+    end
+  end
+
   File.open(path, 'w+') do |f|
     f << contents
   end
@@ -20,7 +31,13 @@ def onChanges changes
   changes.each do |change|
     next if change.relative_path =~ /\/_/
     p = "#{$dst}/#{change.relative_path}.#{change.type}" 
-    save p, change.to_s
+    contents = change.to_s
+    if contents
+      puts "Guardando #{change.relative_path}"
+      save(p, contents) 
+    else
+      puts "No guardo #{change.relative_path}"
+    end
   end
 end
 

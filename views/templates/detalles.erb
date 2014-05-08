@@ -1,0 +1,99 @@
+<article class="hoja detalles-actor" id="actor-{{id}}">
+
+	<header>
+		<div class="headshot-container">
+			<div class="headshot {{partido}}">
+				<div class="headshot-image" style="background-image:url(/actores/imagen/{{imagen}})"></div>
+			</div>
+		</div>
+
+		<div id="localidad" class="actor-byline">
+			<!--p class="cabecera">{{eleccion}}</p-->
+			<p class="camara">{{congreso}}</p>
+		</div>
+
+		<h1 class="actor-nombre">{{nombre}}</h1>
+
+		<div id="links">
+			{{#links}}
+			<a class="link {{clase}} {{icono}}" href="{{url}}" target="_blank">{{icono}}</a>
+			{{/links}}
+		</div>
+
+		<div id="distrito" class="actor-byline">
+			<p class="distrito">{{distrito}}</p>
+			<p class="partido">{{partido}}</p>
+		</div>
+
+	</header>
+
+	<section class="info-actor" id="contacto">
+		<h2>¿Cómo me pongo en contacto?</h2>
+
+		<div class="contacto-actor">
+			<span class="icono">phone</span>
+			<div class="contacto-data">
+				<ul>
+				{{#telefonos}}
+					<li>
+						<a href="tel:{{numero}}" title="Llamarle a este representante">
+							{{numero}}
+						</a>
+						{{#extension}}
+						ext. {{extension}}
+						{{/extension}}
+					</li>
+				{{/telefonos}}
+				</ul>
+			</div>
+
+		</div>
+
+		<div class="contacto-actor">
+			<span class="icono">email</span>
+			<div class="contacto-data">
+				<a href="mailto:{{correo}}" title="Enviarle un correo a este representante">{{correo}}</a>
+			</div>
+		</div>
+
+		{{#suplente}}
+		<p class="suplente">Suplente: {{suplente}}</p>
+		{{/suplente}}
+
+		{{#postal}}
+		<div class="contacto-actor contacto-full">
+			<span class="icono">office</span>
+			<div class="contacto-data">
+				{{url}}
+			</div>
+		</div>
+		{{/postal}}
+
+		<hr />
+	</section>
+
+
+	<section class="info-actor" id="comisiones">
+		<h2>¿En qué comisiones participa?</h2>
+
+		<ul>
+			{{#puestos}}
+			<li class="comision">
+				{{#titulo}}
+				<span class="puesto">{{puesto}}</span> 
+				{{/titulo}}
+				<a href="/comisiones/{{comision.stub}}/{{comision.id}}" title="Detalles de esta comisión">
+					{{comision.nombre}}
+				</a>
+			</li>
+			{{/puestos}}
+		</ul>
+		<hr />
+	</section>
+
+
+	<footer>
+		<p>Información obtenida de <a href="{{meta.fkey}}" target="_blank" title="Abrir la información de origen">{{meta.fkey}}</a>. Última actualización: {{meta.lastCrawl}}</p>
+	</footer>
+
+</article>

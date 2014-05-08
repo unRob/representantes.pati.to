@@ -102,21 +102,25 @@ class Assets
     # Lo agregamos al mapa
     @map[rp] = file
     
+
+
+
     # [js/jquery, js/mustache]
     file.dependencies.each do |dependency|
 
       dependency_relative_path = "#{type}/#{dependency}"
       
+
       # si no está en el mapa, lo ponemos
       unless @map.keys.include? dependency_relative_path
-        "instanciando dependencia"
+        #puts "instanciando dependencia #{dependency_relative_path}"
         dep = AssetCompiler::instance(type)
       else
         dep = @map[dependency_relative_path]
       end
       dep.set_dependant rp
       
-      #puts "Argregando (#{dependency_relative_path}) a #{rp}"
+      #puts "Agregando (#{dependency_relative_path}) a #{rp}"
       @map[dependency_relative_path] = dep
     end
   end
@@ -132,6 +136,13 @@ module AssetCompiler
     exit
   end
 
+  class CompilationError < Exception
+    @msg = nil
+    @backtrace = nil
+    def initialize(file, line, error)
+
+    end
+  end
 
   class AbstractCompiler
     
@@ -180,6 +191,7 @@ module AssetCompiler
       rescue Exception => e
         puts self.inspect
         puts e
+        puts e.backtrace
         exit
       end
     end
@@ -206,11 +218,19 @@ module AssetCompiler
       @compiled = ''
 
       dependencies.each do |dep|
-        @compiled += Assets.get_file("#{@type}/#{dep}").to_s+"\n"
+        contents = Assets.get_file("#{@type}/#{dep}").to_s
+        return nil if !contents
+        @compiled += contents+"\n"
       end
 
       if @path =~ /\.coffee$/
-        @compiled += CoffeeScript.compile(@contents, @options)
+        begin
+          @compiled += CoffeeScript.compile(@contents, @options)
+        rescue Exception => e
+          puts "Error en #{path}"
+          puts e
+          return nil
+        end
       else
         @compiled += @contents
       end
@@ -230,8 +250,15 @@ module AssetCompiler
     end
 
     def do_compilation
+      return nil if dependants.count > 0 && relative_path =~ %r{/_.+}
+
       touch
-      Sass.compile @contents, @options
+      begin
+        return Sass.compile @contents, @options
+      rescue Sass::SyntaxError => e
+        puts e.sass_backtrace_str path
+        nil
+      end
     end
   end
 

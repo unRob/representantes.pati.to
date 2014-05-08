@@ -28,6 +28,16 @@
 	@include rounded(bottom, left, $radius);
 	@include rounded(bottom, right, $radius);
 }
+
+@mixin round-left($radius: 5px) {
+	@include rounded(top, left, $radius);
+	@include rounded(bottom, left, $radius);
+}
+@mixin round-right($radius: 5px) {
+	@include rounded(top, right, $radius);
+	@include rounded(bottom, right, $radius);
+}
+
 @mixin border-radius($radius: 5px) {
 	-webkit-border-radius: $radius;
 	   -moz-border-radius: $radius;
@@ -43,17 +53,43 @@
 	   -moz-box-sizing: $arg;
 	        box-sizing: $arg;
 }
+
+@mixin keyframes($name) {
+	 @-webkit-keyframes $name {
+        @content;
+    }
+ 
+    @-moz-keyframes $name {
+        @content;
+    }
+ 
+    @-o-keyframes $name {
+        @content;
+    }
+ 
+    @keyframes $name {
+        @content;
+    }
+}
+
+@mixin animation($args...) {
+	-webkit-animation: $args;
+	   -moz-animation: $args;
+	     -o-animation: $args;
+	        animation: $args;
+}
+
 @mixin transition($args...) {
 	-webkit-transition: $args;
 	   -moz-transition: $args;
 	     -o-transition: $args;
 	        transition: $args;
 }
-@mixin transition-transform($duration, $timingfn, $delay: 0) {
-	-webkit-transition: -webkit-transform $duration $timingfn $delay;
-	   -moz-transition: -moz-transform $duration $timingfn $delay;
-	     -o-transition: -o-transform $duration $timingfn $delay;
-	        transition: transform $duration $timingfn $delay;
+@mixin transition-transform($duration, $timingfn) {
+	-webkit-transition: -webkit-transform $duration $timingfn;
+	   -moz-transition: -moz-transform $duration $timingfn;
+	     -o-transition: -o-transform $duration $timingfn;
+	        transition: transform $duration $timingfn;
 }
 @mixin scale($ratio) {
 	-webkit-transform: scale($ratio);
@@ -62,6 +98,23 @@
 	     -o-transform: scale($ratio);
 	     	transform: scale($ratio);
 }
+
+@mixin transform($args...) {
+	-webkit-transform: $args;
+	   -moz-transform: $args;
+	    -ms-transform: $args;
+	     -o-transform: $args;
+	     	transform: $args;
+}
+
+@mixin transform-origin($args...) {
+	-webkit-transform-origin: $args;
+	   -moz-transform-origin: $args;
+	    -ms-transform-origin: $args;
+	     -o-transform-origin: $args;
+	     	transform-origin: $args;
+}
+
 @mixin rotate($angle) {
 	-webkit-transform: rotate($angle);
 	   -moz-transform: rotate($angle);
@@ -78,6 +131,20 @@
 //
 // Gradients
 //
+@mixin reflect-gradient($edge, $center, $direction:top) {
+	$ie-start: ie_hex_str($edge);
+	$ie-stop:  ie_hex_str($center);
+	background-color: $center;
+	background-color: transparent;
+	background-image: -moz-linear-gradient($direction, $edge, $center, $edge); // FF 3.6+
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, $edge 0%, $center 50%, $edge 100%); // Safari 4+, Chrome 2+
+    background-image: -webkit-linear-gradient($direction, $edge 0%, $center 50%, $edge 100%); // Safari 5.1+, Chrome 10+
+    background-image: -o-linear-gradient($direction, $edge 0%, $center 50%, $edge 100%); // Opera 11.10
+    background-image: linear-gradient($direction, $edge 0%, $center 50%, $edge 100%); // Standard, IE10
+    background-repeat: repeat-x;
+	filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#{$ie-start}', EndColorStr='#{$ie-stop}', GradientType=0)"; // IE9 para abajo
+}
+
 @mixin vertical-gradient($start, $stop) {
 	$ie-start: ie_hex_str($start);
 	$ie-stop:  ie_hex_str($stop);
@@ -112,6 +179,40 @@
 
 	@include vertical-gradient($start, $stop);
 	border-color: $stop $stop darken($stop, 15%);
+}
+
+@mixin flex-container($direction:row, $justify:center, $align:center) {
+	display: -webkit-flex;
+	display:    -moz-flex;
+	display:     -ms-flex;
+	display:      -o-flex;
+	display:         flex;
+
+	-webkit-flex-direction: $direction;
+	   -moz-flex-direction: $direction;
+	    -ms-flex-direction: $direction;
+	     -o-flex-direction: $direction;
+	        flex-direction: $direction;
+
+	-webkit-justify-content: $justify;
+	   -moz-justify-content: $justify;
+	    -ms-justify-content: $justify;
+	     -o-justify-content: $justify;
+	        justify-content: $justify;
+
+	-webkit-align-content: $align;
+	   -moz-align-content: $align;
+	    -ms-align-content: $align;
+	     -o-align-content: $align;
+	        align-content: $align;
+}
+
+@mixin flex-item($grow:0, $shrink:1, $basis:auto) {
+	-webkit-flex: $grow $shrink $basis;
+	   -moz-flex: $grow $shrink $basis;
+	    -ms-flex: $grow $shrink $basis;
+	     -o-flex: $grow $shrink $basis;
+	        flex: $grow $shrink $basis;
 }
 
 // 

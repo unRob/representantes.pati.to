@@ -1,0 +1,110 @@
+<article class="hoja detalles-actor" id="actor-<%= actor.id %>">
+
+	<header>
+		<div class="headshot-container">
+			<div class="headshot <%= actor.partido %>">
+				<div class="headshot-image" style="background-image:url(/actores/imagen/<%= actor.imagen %>)"></div>
+			</div>
+		</div>
+
+		<div id="localidad" class="actor-byline">
+			<p class="camara"><%= actor.congreso %></p>
+			<p class="cabecera"><%= actor.poblacion %></p>
+		</div>
+
+		<h1 class="actor-nombre"><%= actor.nombre %></h1>
+
+		<div id="links">
+			<%
+				links = actor.links.select {|l| l.servicio != 'postal' }
+				links.each do |link|
+				clase = "social-icon"
+				icono = link.servicio
+				if link.servicio == 'http'
+					clase = "icon round"
+					icono = 'globe'
+				end
+			%>
+			<a class="link <%= clase %> <%= icono %>" href="<%= link.url %>" target="_blank"><%= icono %></a>
+			<% end %>
+		</div>
+
+		<div id="distrito" class="actor-byline">
+			<p class="distrito"><%= actor.distrito_json %></p>
+			<p class="partido"><%= actor.partido %></p>
+		</div>
+
+	</header>
+
+	<section class="info-actor" id="contacto">
+		<h2>¿Cómo me pongo en contacto?</h2>
+
+		<div class="contacto-actor">
+			<span class="icono">phone</span>
+			<div class="contacto-data">
+				<ul>
+				<% actor.telefonos.each do |telefono| %>
+					<li>
+						<a href="tel:<%= telefono.numero %>" title="Llamarle a este representante">
+							<%= telefono.numero %>
+						</a>
+						<% if telefono.extension %>
+						ext. <%= telefono.extension %>
+						<% end %>
+					</li>
+				<% end %>
+				</ul>
+			</div>
+
+		</div>
+
+		<div class="contacto-actor">
+			<span class="icono">email</span>
+			<div class="contacto-data">
+				<a href="mailto:<%= actor.correo %>" title="Enviarle un correo a este representante"><%= actor.correo %></a>
+			</div>
+		</div>
+
+		<% if actor.suplente %>
+		<p class="suplente">Suplente: <%= actor.suplente %></p>
+		<% end %>
+
+		<% 
+			postal = actor.links.where({servicio: postal}).first
+			if postal
+		%>
+		<div class="contacto-actor contacto-full">
+			<span class="icono">office</span>
+			<div class="contacto-data">
+				<%= postal.url %>
+			</div>
+		</div>
+		<% end %>
+
+		<hr />
+	</section>
+
+
+	<section class="info-actor" id="comisiones">
+		<h2>¿En qué comisiones participa?</h2>
+
+		<ul>
+			<% actor.puestos.each do |puesto| %>
+				<li class="comision">
+					<% if puesto.puesto != 'integrante' %>
+					<span class="puesto"><%= puesto.puesto %></span> 
+					<% end %> 
+					<a href="/comisiones/<%= puesto.comision.stub %>/<%= puesto.comision.id %>" title="Detalles de esta comisión">
+						<%= puesto.comision.nombre %>
+					</a>
+				</li>
+			<% end %>
+		</ul>
+		<hr />
+	</section>
+
+
+	<footer>
+		<p>Información obtenida de <a href="<%= actor.meta.fkey %>" target="_blank" title="Abrir la información de origen"><%= actor.meta.fkey %></a>. Última actualización: <%= l(actor.meta.lastCrawl, '%d de %B, %y %H:%M:%S')%></p>
+	</footer>
+</article>

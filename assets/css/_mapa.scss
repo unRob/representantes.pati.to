@@ -37,29 +37,64 @@
 	-webkit-transition: opacity 1s ease-out;
 }
 
-#aqui-vivo {
-	background: #ED1E79;
+#mi-ubicacion {
+	
 	text-transform: uppercase;
-	color: #fff;
+	
 	display: block;
 	position: relative;
 	
 	width: 200px;
-	border-radius: 3px;
+	
 	text-align: center;
 	margin: 0 auto;
 	top: -1em;
 	font-size: 1.5em;
 	font-weight: 700;
-	text-decoration: none;
+	
 	line-height: 1.5em;
+
+	@include clearfix();
+
+	& a {
+		display: block;
+		float: left;
+		padding: 0 .5em;
+		margin: 0;
+		background: #ED1E79;
+		color: #fff;
+		text-align: center;
+		text-decoration: none;
+		border-right: 1px solid rgba(255,255,255,.5);
+		height: 36px;
+	}
+
+	& a:first-child {
+		@include round-left(3px);
+	}
+
+	& a:last-child {
+		border-right: none;
+		line-height: 1.8em;
+		vertical-align: bottom;
+		@include round-right(3px);
+	}
+
+	& a:hover {
+		box-shadow: 0px 0px 2px rgba(0,0,0,0.5), inset 0px -1px 1px rgba(0,0,0,0.2);
+		background-color: #FD2E89;
+	}
 }
 
-#aqui-vivo:hover {
-	box-shadow: 0px 0px 2px rgba(0,0,0,0.5), inset 0px -1px 1px rgba(0,0,0,0.2);
-	background-color: #FD2E89;
+@include keyframes(spin) {
+	0% { @include rotate(0deg);  }
+	100% { @include rotate(359deg); }
 }
 
-.representante {
-	width: 100%;
+
+.icono.loading {
+	display: inline-block;
+	vertical-align: middle;
+	@include transform-origin(50% 41%);
+	@include animation(spin 1s linear infinite forwards);
 }

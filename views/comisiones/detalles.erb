@@ -1,0 +1,66 @@
+<article class="hoja detalles-comision item-detalles" id="comision-<%= comision.id %>">
+
+	<header>
+
+		<div id="localidad" class="comision-byline item-byline">
+			<%= comision.congreso %>
+		</div>
+		<h1 class="comision-nombre item-nombre"><%= comision.nombre %></h1>
+
+		<div id="links">
+			<% if comision.link %>
+			<a class="link icono round globe" href="<%= comision.link %>" target="_blank">globe</a>
+			<% end %>
+		</div>
+
+		<div id="distrito" class="comision-byline item-byline">
+			<% if comision.oficina %>
+			<p class="distrito">Oficina <%= comision.oficina %></p>
+			<% end %>
+		</div>
+
+	</header>
+
+	<section class="item-info">
+		<h2>¿Cómo me pongo en contacto?</h2>
+
+		<div class="info-contacto contacto-full">
+			<span class="icono">phone</span>
+			<div class="contacto-data">
+				<ul>
+				<% comision.telefonos.each do |telefono| %>
+					<li>
+						<a href="tel:<%= telefono.numero %>" title="Llamarle a esta comision">
+							<%= telefono.numero %>
+						</a>
+						<% if telefono.extension %>
+						ext. <%= telefono.extension %>
+						<% end %>
+					</li>
+				<% end %>
+				</ul>
+			</div>
+
+		</div>
+		<hr />
+	</section>
+
+	<section class="item-info actores">
+		<h2>Integrantes</h2>
+		<% actores = comision.integrantes_json %>
+		<% actores.each do |puesto, integrantes| %>
+			<h3><%= puesto.to_s.titleize %></h3>
+			<% integrantes.each do |actor|
+					actor[:camara] = actor[:puesto] %>
+				<%=  MustacheTpl.render "templates/representante", actor %>
+			<% end %>
+			<hr />
+		<% end %>	
+
+	</section>
+
+
+	<footer>
+		<p>Información obtenida de <a href="<%= comision.meta.fkey %>" target="_blank" title="Abrir la información de origen"><%= comision.meta.fkey %></a>. Última actualización: <%= l(comision.meta.lastCrawl, '%d de %B, %y %H:%M:%S')%></p>
+	</footer>
+</article>

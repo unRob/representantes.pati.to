@@ -43,6 +43,7 @@ class Crawler
         'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/537.75.14',
 
       }
+      
       #Typhoeus::Config.verbose = true
       req = Typhoeus::Request.new(url, timeout: 60, headers: h)
       req.on_complete do |res|

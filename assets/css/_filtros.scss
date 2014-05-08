@@ -1,0 +1,56 @@
+#filtros {
+	@include flex-container(row, center, space-between);
+}
+
+#filtros .filtro {
+	@include flex-item();
+	padding: 0 1em;
+	margin: 0 1em;
+	font-size: 14px;
+
+	color: $gris-claro;
+	text-decoration: none;
+	text-align: center;
+	min-width: 135px;
+
+	border-bottom: 5px solid $gris-claro;
+	padding-bottom: 10px;
+
+	& span {
+		display: block;
+	}
+
+	& .tipo {
+		text-transform: uppercase;
+		font-weight: bold;
+		font-size: 18px;
+	}
+
+	@include transition(all .5s ease-in-out);
+
+	&:hover {
+		color: $gris-medio;
+		border-bottom-color: $gris-medio;
+		@include transition(all .2s ease-in-out);
+	}
+
+	&.activo {
+		color: #333;
+		border-bottom-color: $rosa;
+		@include transition(all .2s ease-in-out);
+	}
+
+
+}
+
+@media all and (max-width:410px) {
+	#filtros .filtro {
+		min-width: 0;
+		font-size: 12px;
+		margin: .5em;
+
+		& .tipo {
+			font-size: 17px;
+		}
+	}
+}

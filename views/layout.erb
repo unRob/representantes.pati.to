@@ -5,12 +5,11 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width" />
 		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-title" content="Representantes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent," />
 
 		<title>¿Quién me representa?</title>
 	
-		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width" />
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		
 		<meta property="og:description" content="Encuentra a tu diputado, senador y asambleista." />
 		<meta property="og:title" content="¿Quién me representa?" />
 		<meta property="fb:admins" content="792675081" />
@@ -20,6 +19,21 @@
 		<meta itemprop="description" content="Ubica a tu legislador y dile lo que piensas. Su trabajo es representar tus intereses en la creación de leyes." />
 		<meta itemprop="image" content="http://representantes.pati.to/img/og-icon.png" />
 		
+
+		<!-- iOS webapp icons -->
+		<link rel="apple-touch-icon" href="/img/ios/icon.png" />
+		<link rel="apple-touch-icon" sizes="72x72" href="/img/ios/icon-ipad.png" />
+		<link rel="apple-touch-icon" sizes="114x114" href="/img/ios/icon@2x.png" />
+		<!-- iOS startup screens -->
+		<link rel="apple-touch-startup-image" href="/img/ios/startup.png" media="screen and (max-device-width : 320px)">
+		<link rel="apple-touch-startup-image" href="/img/ios/startup@2x.png" media="(max-device-width : 480px) and (-webkit-min-device-pixel-ratio : 2)">
+		<link rel="apple-touch-startup-image" href="/img/ios/startup5.png" media="(max-device-width : 548px) and (-webkit-min-device-pixel-ratio : 2)">
+		<!-- iPad -->
+		<link rel="apple-touch-startup-image" sizes="1024x748" href="/img/ios/startup-ipad.png" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : landscape)">
+		<link rel="apple-touch-startup-image" sizes="2048x1496" href="/img/ios/startup-ipad@2x.png" media="screen and (-webkit-min-device-pixel-ratio : 2) and (min-device-width : 481px) and (max-device-width : 2048px) and (orientation : landscape)">
+		<link rel="apple-touch-startup-image" sizes="768x1004" href="/img/ios/startup-ipad-portrait.png" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : portrait)">
+		<link rel="apple-touch-startup-image" sizes="1536x2008" href="/img/ios/startup-ipad-portrait@2x.png" media="screen and (-webkit-min-device-pixel-ratio : 2) and (min-device-width : 481px) and (max-device-width : 2048px) and (orientation : portrait)">
+
 		<link href='http://fonts.googleapis.com/css?family=Raleway:400,900,700,100' rel='stylesheet' type='text/css'>
 		
 		<%
@@ -28,23 +42,44 @@
 		%>
 		<link rel="stylesheet" href="/css/<%= _viewName %>.css" />
 		
-		<link rel="shortcut icon" href="/favicon.png" />
+		<link rel="shortcut icon" href="/favicon.ico" />
 		
 	</head>
 	<body>
 		
-		<div id="container">
-			<%= yield %>
-		</div>
-		
-		<footer>
-			<a href="http://surrealista.mx" title="Partido Surrealista Mexicano">
-				<img src="/img/pato.svg" title="patito" id="patito"/>
-				Partido Surrealista Mexicano
-			</a>
-		</footer>
+		<div id="main-container">
+			<div id="container">
 
-		<script src="/js/<%= _viewName %>.js"></script>
+				<% if defined? trigger %>
+				<script>
+				window.view_data = <%= trigger.to_json %>
+				</script>
+				<% end %>
+
+
+				<header id="main-header" class="inside">
+					<h1>
+						<a href="/">
+							<img src="/img/logo.png"  />
+							¿Quién me representa?
+						</a>
+					</h1>
+					<p>Ubica a tu legislador y dile lo que piensas. Su trabajo es representar tus intereses en la creación de leyes.</p>
+				</header>
+
+				<main>
+					<%= yield %>
+				</main>
+			</div>
+			
+			<footer>
+				<a href="http://surrealista.mx" title="Partido Surrealista Mexicano">
+					<img src="/img/pato.svg" title="patito" id="patito"/>
+					Partido Surrealista Mexicano
+				</a>
+			</footer>
+		</div>
+
 		<script type="text/javascript">
 
 		  var _gaq = _gaq || [];
@@ -58,5 +93,6 @@
 		  })();
 
 		</script>
+		<script src="/js/<%= _viewName %>.js"></script>
 	</body>
 </html>

@@ -43,6 +43,8 @@ crawler.run do |img, req|
       Log.error e.backtrace.join("\n")
       exit
     end
+  elsif img.timed_out?
+    Log.warn "Timeout #{req[:url]}"
   else
     Log.error "No encontré #{req[:url]} (#{req[:actor].meta.fkey})"
     req[:actor].imagen = nil

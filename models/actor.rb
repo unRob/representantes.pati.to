@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Actor
 	include Mongoid::Document
   store_in collection: 'actores'
@@ -7,7 +8,7 @@ class Actor
   field :nombre, type: String
   field :distrito, type: String
   field :entidad, type: Integer
-  field :tipo_distrito, type: String #local, federal
+  #field :tipo_distrito, type: String #local, federal
 
   field :genero, type: Integer
   field :partido, type: String
@@ -39,7 +40,7 @@ class Actor
   def self.deDistritos(distritos)
     dtos = distritos.map {|dto| dto.id}
     puts dtos
-    any_in("distrito" => dtos).desc(:eleccion)
+    any_in("distrito" => dtos).desc(:distrito).desc(:eleccion)
   end
 
   def stub
@@ -47,22 +48,54 @@ class Actor
   end
 
   def congreso
+    vocal = 'o'
+    vocal = (genero == 0 ? 'a' : 'o') if genero
     return case camara
-      when "diputados" then 'Diputado Federal'
-      when "senado" then 'Senador'
-      when "local" then 'Diputado local'
+      when "diputados" then "Diputad#{vocal} Federal"
+      when "senado" then "Senador#{vocal if vocal == 'a'}"
+      when "local" then "Diputad#{vocal} local"
     end
   end
 
+  def poblacion
+    return cabecera if cabecera
+    return nil unless entidad # por los batos de lista nacional en senado...
+    return Entidades::nombre_de_entidad(entidad).titleize
+  end
+
   def distrito_json
-    return "Distrito #{distrito['id'].split(/-/)[1]}"
+    if circ = distrito.scan(/-c(\d+)$/).flatten[0]
+      return "Circunscripción #{circ}"
+    end
+
+    unless camara == 'senado'
+      str = "Distrito #{distrito.split('-').last}"
+      str += ", #{poblacion}"
+      return str
+    end 
+    return poblacion || eleccion
   end
 
   def as_json(options={})
     attrs = super(options)
     attrs["id"] = attrs["_id"].to_s
     attrs['imagen'] = attrs['imagen'].to_s if attrs['imagen']
+    attrs['congreso'] = congreso
+    attrs['distrito'] = distrito_json
     attrs["stub"] = stub
+    attrs['poblacion'] = poblacion
+    attrs['puestos'] = puestos.map do |puesto|
+      {
+        titulo: puesto.puesto != 'integrante',
+        puesto: puesto.puesto,
+        comision: {
+          nombre: puesto.comision.nombre,
+          stub: puesto.comision.stub,
+          id: puesto.comision.id.to_s
+        }
+      }
+    end
+    attrs['meta']['lastCrawl'] = l(meta.lastCrawl, '%d de %B, %y %H:%M:%S')
     attrs
   end
 	
@@ -86,6 +119,7 @@ class Puesto
   belongs_to :comision, class_name: 'Comision'
 
   def as_json(options={})
+    attrs = super(options)
     attrs['comision'] = attrs['comision'].to_s
     attrs.delete 'comision_id'
     attrs

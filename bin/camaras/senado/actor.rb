@@ -24,7 +24,11 @@ module Parser
         imgs = data.css('div[align=center] > img')
 
         entidad = imgs[2].attr('alt').downcase
-        entidadNum = $entidades.index(entidad)+1
+        if entidad == 'lista nacional'
+          entidadNum = nil
+        else
+          entidadNum = $entidades.index(entidad)+1
+        end
 
         actor[:partido] = imgs[0].attr('alt').downcase
         actor[:partido] = nil if actor[:partido] == 'sg'

@@ -1,5 +1,62 @@
-@import "reset";
-@import "attache";
-@import "shared";
-@import "mapa";
-@import "representante";
+@import "_reset";
+@import "_attache";
+@import "_variables";
+@import "_shared";
+@import "_mapa";
+@import "_representante";
+@import "_filtros";
+@import "actores/detalles";
+
+body {
+	background: #fff;
+}
+
+body.covered {
+	background: #aaa;
+}
+
+#main-container {
+	position: relative;
+	background: #fff;
+	@include transition(-webkit-filter .2s ease-out, -webkit-transform .2s ease-out);
+	   @include transition(-moz-filter .2s ease-out,    -moz-transform .2s ease-out);
+	    @include transition(-ms-filter .2s ease-out,     -ms-transform .2s ease-out);
+	     @include transition(-o-filter .2s ease-out,      -o-transform .2s ease-out);
+	        @include transition(filter .2s ease-out,         transform .2s ease-out);
+    padding-bottom: 1em;
+    @include transform(scale(1));
+}
+
+.covered #main-container {
+	-webkit-filter: grayscale(100%) blur(2px);
+	   -moz-filter: grayscale(100%) blur(2px);
+	    -ms-filter: grayscale(100%) blur(2px);
+	     -o-filter: grayscale(100%) blur(2px);
+	        filter: grayscale(100%) blur(2px);
+	@include transform(scale(.98));
+	@include transition(-webkit-filter .2s ease-in, -webkit-transform .2s ease-in);
+	   @include transition(-moz-filter .2s ease-in,    -moz-transform .2s ease-in);
+	    @include transition(-ms-filter .2s ease-in,     -ms-transform .2s ease-in);
+	     @include transition(-o-filter .2s ease-in,      -o-transform .2s ease-in);
+	        @include transition(filter .2s ease-in,         transform .2s ease-in);
+}
+
+#cover {
+	overflow: scroll;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+	z-index: 800;
+	@include transform(translate(0,0em));
+	@include transition(opacity .5s ease-in);
+	@include transition-transform(.5s, ease-in);
+
+	&.inactive {
+		opacity: 0; 
+		@include transform(translate(0,-99em));
+		@include transition(opacity .5s ease-out);
+		@include transition-transform(.5s, ease-out);
+	}
+}

@@ -1,26 +1,49 @@
-<% if defined? trigger %>
-<script>
-window.view_data = <%= trigger.to_json %>
-</script>
-<% end %>
-
-<header class="inside">
-	<h1>¿Quién me representa?</h1>
-	<p>Ubica a tu legislador y dile lo que piensas. Su trabajo es representar tus intereses en la creación de leyes.</p>
-</header>
-
+<div id="cover" class="inactive">
+	<script type="text/html" id="tpl-detalles" class="render-template">
+		<%= erb :"templates/detalles" %>
+	</script>
+</div>
 <noscript>
 	<h1>Necesitas habilitar Javascript :(</h1>
 </noscript>
 
+<% if defined? request_data %>
+<script>
+window.request_data = <%= request_data.to_json; %>;
+</script>
+<% end %>
+
 <div id="mapa" class="loading">
+
 	<div id="mapa-loading">Buscándote...</div>
-	<div id="mapa-canvas">
-	</div>
+	<div id="mapa-canvas"></div>
 </div>
-<a href="#" id="aqui-vivo">Aquí vivo</a>
+
+<div id="mi-ubicacion" class="boton-multi">
+	<a href="#" class="" id="aqui-vivo">Aquí vivo</a>
+	<a href="#" class="" id="localizame">
+		<span class="icono">locate</span>
+	</a>
+</div>
 
 <section class="inside">
+
+	<nav id="filtros">
+		<a href="#" class="filtro activo" data-filtro="local">
+			<span class="helper-text">Cámara</span>
+			<span class="tipo">Local</span>
+		</a>
+
+		<a href="#" class="filtro activo" data-filtro="diputados">
+			<span class="helper-text">Cámara de</span>
+			<span class="tipo">Diputados</span>
+		</a>
+
+		<a href="#" class="filtro activo" data-filtro="senado">
+			<span class="helper-text">Cámara de</span>
+			<span class="tipo">Senadores</span>
+		</a>
+	</nav>
 
 	<section id="representantes">
 		<script type="text/html" id="tpl-representante" class="render-template">

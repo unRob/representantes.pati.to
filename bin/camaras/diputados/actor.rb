@@ -81,7 +81,12 @@ module Parser
         actor[:correo] = links[0].text.squish
 
         if links[1]
-          actor[:links] << {servicio: :http, url: rows[8].css('a')[0].attr('href')}
+          href = links[1].attr('href')
+
+          # no queremos links vacíos
+          if href =~ %r{http://.+}
+            actor[:links] << {servicio: :http, url: href}
+          end
         end
 
         if exts = telefonos[actor[:correo]]

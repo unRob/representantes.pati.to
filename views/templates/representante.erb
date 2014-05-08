@@ -1,5 +1,6 @@
-<div id="representante-{{id}}" class="representante {{partido}} clearfix">
+<div id="representante-{{id}}" class="representante actor-sumario {{camara}} {{partido}} clearfix">
 	<a href="/actores/{{stub}}/{{id}}" title="Detalles de {{nombre}}">
+		<span class="camara">{{camara}}</span>
 		<div class="headshot-container">
 			<div class="headshot {{partido}}">
 				<!-- /foto-de/{{stubImagen}}.jpg -->
@@ -7,7 +8,10 @@
 			</div>
 		</div>
 		<div class="representante-sumario">
-			<p class="byline">{{congreso}}, {{distrito}}</p>
+			<p class="byline">
+				{{distrito}}
+			</p>
+			
 			<h2>{{nombre}}</h2>
 			<span class="partido">{{partido}}</span>
 			{{#eleccion}}
@@ -15,11 +19,7 @@
 			{{/eleccion}}
 		</div>
 		<div class="acciones-contacto">
-			<a href="/telefono/{{stub}}" class="icono contacto">telephone</a>
-			<a href="mailto:{{correo}}" class="icono contacto" >email</a>
-		</div>
-
-		<div class="representante-detalles">
+			<span class="icono detalles">next</span>
 		</div>
 	</a>
 </div>

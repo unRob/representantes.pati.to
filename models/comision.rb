@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Comision
 	include Mongoid::Document
   store_in collection: 'comisiones'
@@ -16,5 +17,61 @@ class Comision
   index({"meta.fkn" => 1}, {unique: true, name: 'fkn_index'})
   index({"integrante_ids" => 1})
   index({camara: 1})
+
+  def stub
+    I18n.transliterate(nombre).downcase.gsub(/[^a-z\s]/, '').gsub(' ', '-')
+  end
+
+  def congreso
+    return case camara
+      when "diputados" then "Cámara de Diputados"
+      when "senado" then "Cámara de Senadores"
+      when "local" then "Congreso local, #{Entidades::nombre_de_entidad(entidad).titleize}"
+    end
+  end
+
+  def integrantes_json
+
+    data = {
+      presidencia: [],
+      secretaria: [],
+      integrantes: []
+    }
+
+    integrantes.each {|i|
+      com = i.puestos.where({comision: id}).first
+      actor = {
+        nombre: i.nombre,
+        distrito: i.distrito_json,
+        stub: i.stub,
+        partido: i.partido,
+        eleccion: i.eleccion,
+        puesto: com.puesto,
+        id: i._id.to_s,
+        imagen: i.imagen.to_s
+      }
+      puesto = case com.puesto
+        when /^pres/ then :presidencia
+        when /^secr/ then :secretaria
+        else :integrantes
+      end
+      data[puesto] << actor
+    }
+
+    data
+
+  end
+
+  def as_json options={}
+    attrs = super(options)
+    attrs['id'] = attrs['_id'].to_s
+    attrs['congreso'] = congreso
+    attrs['actores'] = integrantes_json
+    attrs['meta']['lastCrawl'] = l(meta.lastCrawl, '%d de %B, %y %H:%M:%S')
+    
+    attrs.delete 'integrante_ids'
+
+    attrs
+  end
 
 end

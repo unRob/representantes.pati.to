@@ -14,7 +14,9 @@ Geo.setup = ()->
 	
 	if (Geo.geolocation)
 		Geo.trigger 'ubicando'
+		#setTimeout(()->
 		navigator.geolocation.getCurrentPosition Geo.aquired, Geo.error, Geo.defaultOptions
+		#, 10000)
 
 Geo.on = (evt, callback)->
 	Geo.callbacks[evt] = Geo.callbacks[evt] || []

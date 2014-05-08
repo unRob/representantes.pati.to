@@ -1,16 +1,21 @@
 # encoding: utf-8
 
 require 'uri'
+require 'r18n-core'
+#require 'active_support/core_ext/string/filters' 
+include R18n::Helpers;
+R18n.set('es')
 
 class RepresentantesApp < Sinatra::Base
 
   set :root, File.dirname(__FILE__)
-
+  
   register Sinatra::ConfigFile
   register Sinatra::Cookies
   register Sinatra::JSON
   register Sinatra::MultiRoute
   register Sinatra::Namespace
+  register Mustache::Sinatra
 
   enable :sessions
   set :session_secret, 'un montón de ricos huevones'
@@ -38,6 +43,11 @@ class RepresentantesApp < Sinatra::Base
   configure :production, :development do
     settings.environment = ENV['RACK_ENV'].to_sym
     ENV['SASS_PATH'] = 'assets/css'
+
+    R18n.set('es')
+    
+    set :default_locale, 'es'
+    set :locale, 'es'
 
     $settings = settings
 
