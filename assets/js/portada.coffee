@@ -49,6 +49,7 @@ $ ()->
 		console.log('Mostrando un representante')
 		$('body').addClass('covered');
 		$('#cover').html(actor.detalles()).removeClass('inactive').click quitaDetalles
+		$('.info-close').click quitaDetalles
 		$('#cover .hoja').click (evt)->
 			evt.stopPropagation();
 
