@@ -3,6 +3,7 @@
 require 'sass'
 require 'listen'
 require 'fileutils'
+require 'uglifier'
 require_relative 'assets2'
 
 absPath = File.dirname(File.expand_path File.dirname(__FILE__))
@@ -10,6 +11,8 @@ $root = "#{absPath}/assets"
 $dst = "#{absPath}/public"
 
 Assets.root = $root
+$opts = {}
+$opts[:compress] = true
 
 def save path, contents
   dir = File.dirname path
@@ -34,6 +37,9 @@ def onChanges changes
     contents = change.to_s
     if contents
       puts "Guardando #{change.relative_path}"
+      if $opts[:compress] && change.type == :js
+        contents = Uglifier.compile(contents)
+      end
       save(p, contents) 
     else
       puts "No guardo #{change.relative_path}"
