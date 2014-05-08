@@ -41,6 +41,8 @@ $ ()->
 
 
 	quitaDetalles = (evt)->
+		return false unless $('body').hasClass('covered')
+		History.back();
 		evt && evt.preventDefault();
 		$('#cover').addClass('inactive');
 		$('body').removeClass('covered');
