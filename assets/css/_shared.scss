@@ -142,3 +142,10 @@ footer a:hover {
         width: 90%;
     }
 }
+
+@media all and (max-width: 600px) {
+  h1 {
+    line-height: 1em;
+    margin-bottom: 1em;
+  }
+}

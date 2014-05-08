@@ -175,6 +175,7 @@
 	text-align: left;
 	& a {
 		color: inherit;
+		word-break: break-all;
 		text-decoration: underline;
 	}
 
