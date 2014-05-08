@@ -52,8 +52,18 @@ class RepresentantesApp < Sinatra::Base
     end
 
 
-    get '/imagen/:representante' do |representante|
+    get '/imagen/*' do |representante|
       #img = Actor.imagen(representante)
+      
+
+      if representante =~ %r{http}
+        representante = representante.gsub(%r{http://*}, 'http://')
+        actor = Actor.where({imagen: representante}).first
+        vocal = 'e'
+        vocal = 'a' if actor && actor.genero == 0
+        return redirect to ("/img/representant#{vocal}.jpg")
+      end
+
       grid = Mongoid::GridFs.build_namespace_for('imagenes')
       img = grid.get(representante)
       headers "Content-type" => 'image/jpeg'
