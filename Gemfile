@@ -8,7 +8,7 @@ gem 'sinatra-contrib'
 # internationalization
 gem 'r18n-core'
 gem 'sinatra-r18n', :require => 'sinatra/r18n'
-gem 'activesupport'
+gem 'activesupport', :require => 'activesupport/all'
 gem 'mongo'
 gem 'bson'
 gem 'bson_ext'
