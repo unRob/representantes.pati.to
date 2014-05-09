@@ -21,7 +21,9 @@ $ ()->
 	window.mapita = mapita
 
 	mapita.on 'map.loaded', ()->
-		$('#mapa').removeClass('loading')
+		$('#mapa').removeClass('loading').on 'click', (evt)->
+			evt.preventDefault();
+			$('#instrucciones-mapa').fadeOut();
 		if window.request_data
 			mapita.setPolygons(window.request_data.seccion.coords.coordinates)
 			centro = mapita.centroid()
@@ -108,10 +110,12 @@ $ ()->
 
 	
 	if window.request_data
+		$('#instrucciones-mapa').fadeOut();
 		Representantes.parse(request_data.representantes);
 		MuestraRepresentantes(Representantes.actores)
 	
 	newPosition = (evt)->
+		$('#instrucciones-mapa').fadeOut();
 		if evt.hasOwnProperty('latitude')
 			coords = evt
 			mapita.pan(coords)
@@ -123,6 +127,13 @@ $ ()->
 				longitude: c.lng()
 		
 		Representantes.deUbicacion coords, (representantes, seccion)->
+			console.log(representantes)
+			if (representantes is 'error')
+				$('#instrucciones-mapa').text(seccion.razon).fadeIn();
+				setTimeout ()->
+					$('#instrucciones-mapa').fadeOut(500);
+				, 3000
+				return false
 			console.log('actores encontrados')
 			MuestraSeccion(seccion)
 			MuestraRepresentantes(representantes)
@@ -138,6 +149,7 @@ $ ()->
 
 	$('#aqui-vivo').on 'click', newPosition
 	$('#localizame').on 'click', (evt)->
+		$('#instrucciones-mapa').fadeOut();
 		evt.preventDefault();
 		Geo.setup();
 

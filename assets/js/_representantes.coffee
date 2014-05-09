@@ -35,6 +35,10 @@ Representantes.deUbicacion = (coords, callback)->
 		Representantes.parse data.representantes
 		callback(Representantes.actores, data.seccion)
 
+	query.fail (xhr, reason, error)->
+		callback('error', xhr.responseJSON)
+
+
 
 
 Representantes.parse = (reps)->

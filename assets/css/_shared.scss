@@ -29,6 +29,10 @@ body {
 
 }
 
+.clearfix {
+  @include clearfix;
+}
+
 .icono {
     font-family: "SSPika";
     font-style: normal;
@@ -43,6 +47,23 @@ body {
     -o-font-feature-settings: "liga";
     font-feature-settings: "liga";
     -webkit-font-smoothing: antialiased;
+}
+
+nav#social {
+  margin: .5em;
+
+  & .icono {
+    display: inline-block;
+    color: $gris-medio;
+    font-size: 18px;
+    @include transform(scale(1));
+    @include transition(all .5 ease-out);
+
+    &:hover {
+      @include transform(scale(1.5));
+      @include transition(all .2s ease-in);
+    }
+  }
 }
 
 .social-icon {
@@ -61,28 +82,28 @@ body {
     -webkit-font-smoothing: antialiased;
 
     color: $gris-medio;
+    @include transform(scale(1));
+    @include transition(all .5 ease-out);
 
     &:hover {
+      display: inline-block;
+
       &.facebook {
-        color: #3b5998;
+        color: #3b5998 !important;
       }
       &.youtube {
-        color: #cd201f;
+        color: #cd201f !important;
       }
       &.twitter {
-        color: #00acee;
+        color: #00acee !important;
       }
       &.linkedin {
-        color: #0e76a8;
+        color: #0e76a8 !important;
       }
+      @include transform(scale(1.5));
+      @include transition(all .2s ease-in);
+      
     }
-}
-
-nav#social {
-  margin: .5em;
-  & .icono {
-    font-size: 18px;
-  }
 }
 
 h1, h2, h3 {

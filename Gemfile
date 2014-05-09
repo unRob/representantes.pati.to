@@ -1,13 +1,14 @@
 source 'https://rubygems.org'
 #gem 'rack', '~>1.3.5'
 gem 'rack'
+gem 'mustache', :require => 'mustache'
 gem 'sinatra'
 # http://www.sinatrarb.com/contrib
 gem 'sinatra-contrib'
 # internationalization
 gem 'r18n-core'
 gem 'sinatra-r18n', :require => 'sinatra/r18n'
-gem 'activesupport', :require => 'active_support/all'
+gem 'activesupport'
 gem 'mongo'
 gem 'bson'
 gem 'bson_ext'
@@ -15,7 +16,6 @@ gem 'mongoid', github: 'mongoid/mongoid'
 gem 'mongoid-grid_fs'
 gem 'coffee-script'
 gem 'sass'
-gem 'mustache'
 
 group :development, :test do
   gem 'httparty'

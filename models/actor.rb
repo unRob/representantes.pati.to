@@ -78,6 +78,8 @@ class Actor
 
   def as_json(options={})
     attrs = super(options)
+    puts attrs
+    
     attrs["id"] = attrs["_id"].to_s
     attrs['imagen'] = attrs['imagen'].to_s if attrs['imagen']
     attrs['congreso'] = congreso

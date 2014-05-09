@@ -15,7 +15,6 @@ class RepresentantesApp < Sinatra::Base
   register Sinatra::JSON
   register Sinatra::MultiRoute
   register Sinatra::Namespace
-  register Mustache::Sinatra
 
   enable :sessions
   set :session_secret, 'un montón de ricos huevones'
@@ -45,6 +44,7 @@ class RepresentantesApp < Sinatra::Base
     ENV['SASS_PATH'] = 'assets/css'
 
     R18n.set('es')
+    I18n.enforce_available_locales = true
     
     set :default_locale, 'es'
     set :locale, 'es'

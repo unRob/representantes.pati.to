@@ -1,0 +1,18 @@
+@import "_reset";
+@import "_attache";
+@import "_variables";
+@import "_shared";
+@import "_mapa";
+@import "_representante";
+@import "_botones";
+@import "actores/detalles";
+
+
+.input-text {
+	width: 100%;
+	font: inherit;
+	font-size: 1.5em;
+	border: 1px solid $gris-claro;
+	@include border-radius(5px);
+	padding: 5px;
+}

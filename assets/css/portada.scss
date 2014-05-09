@@ -35,7 +35,7 @@ body.covered {
 	    -ms-filter: grayscale(100%) blur(2px);
 	     -o-filter: grayscale(100%) blur(2px);
 	        filter: grayscale(100%) blur(2px);
-	@include transform(scale(.98));
+	@include transform(scale(.9));
 	@include transition(-webkit-filter .2s ease-in, -webkit-transform .2s ease-in);
 	   @include transition(-moz-filter .2s ease-in,    -moz-transform .2s ease-in);
 	    @include transition(-ms-filter .2s ease-in,     -ms-transform .2s ease-in);
@@ -57,13 +57,13 @@ body.covered {
 	left: 0px;
 	z-index: 800;
 	@include transform(translate(0,0em));
-	@include transition(opacity .5s ease-in);
-	@include transition-transform(.5s, ease-in);
+	@include transition(all .5s ease-in);
+	//@include transition-transform(.5s, ease-in);
 
 	&.inactive {
 		opacity: 0; 
 		@include transform(translate(0,-99em));
-		@include transition(opacity .5s ease-out);
-		@include transition-transform(.5s, ease-out);
+		@include transition(all .5s ease-out);
+		//@include transition-transform(.5s, ease-out);
 	}
 }

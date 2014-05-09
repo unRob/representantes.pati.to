@@ -16,12 +16,12 @@
 
 		<div id="links">
 			<%
-				links = actor.links.select {|l| l.servicio != 'postal' }
+				links = actor.links.ne(servicio: 'postal')
 				links.each do |link|
 				clase = "social-icon"
 				icono = link.servicio
 				if link.servicio == 'http'
-					clase = "icon round"
+					clase = "icono round"
 					icono = 'globe'
 				end
 			%>
@@ -65,12 +65,10 @@
 			</div>
 		</div>
 
-		<% if actor.suplente %>
-		<p class="suplente">Suplente: <%= actor.suplente %></p>
-		<% end %>
+		<div class="clearfix"></div>
 
 		<% 
-			postal = actor.links.where({servicio: postal}).first
+			postal = actor.links.where({servicio: 'postal'}).first
 			if postal
 		%>
 		<div class="contacto-actor contacto-full">
@@ -79,6 +77,10 @@
 				<%= postal.url %>
 			</div>
 		</div>
+		<% end %>
+
+		<% if actor.suplente %>
+		<p class="suplente">Suplente: <%= actor.suplente %></p>
 		<% end %>
 
 		<hr />

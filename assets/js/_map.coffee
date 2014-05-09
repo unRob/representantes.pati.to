@@ -53,7 +53,7 @@ Mapa::iniciaMapa = ()->
 	map
 
 Mapa::agregaMarcador = (latLng)->
-	console.log("agregando marcador @ #{latLng.lat()}, #{latLng.lng()}")
+	#console.log("agregando marcador @ #{latLng.lat()}, #{latLng.lng()}")
 	new google.maps.Marker({
 		position: latLng,
 		map: @instance,

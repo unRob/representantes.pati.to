@@ -1,0 +1,32 @@
+<section class="inside">
+
+	<h2>Busca tu representante<!--  o comisión --></h2>
+
+	<form id="buscador" method="get">
+	<!--  ó comisión -->
+	<input type="text" id="nombre-busqueda" class="input-text" name="nombre" placeholder="Nombre del representante"  autofocus autocomplete="off" />
+	<input type="hidden" name="set" value="actores" />
+
+	<button id="doSearch" type="submit" class="boton">Buscar</button>
+	</form>
+
+</article>
+
+<script type="text/html" id="tpl-representante" class="render-template">
+	<%= erb :"templates/representante" %>
+</script>
+
+<section class="resultados-busqueda <%= 'busqueda-activa' if defined? total %>">
+	<h3><span id="total"><%= total if defined? total %></span> Resultados</h3>
+
+	<ul id="resultados">
+	<% if defined? resultados %>
+		<% resultados.each do |resultado| %>
+			<li>
+				<%=  MustacheTpl.render "templates/representante", resultado %>
+			</li>
+		<% end %>
+	<% end %>
+	</ul>
+
+</section>
