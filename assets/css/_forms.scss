@@ -1,0 +1,18 @@
+input, textarea, select {
+	font: inherit;
+}
+
+.form-group {
+	margin: 1em 0;
+}
+
+
+.input-text {
+	width: 100%;
+	font: inherit;
+	font-size: 1.5em;
+	border: 1px solid $gris-claro;
+	@include box-sizing(border-box);
+	@include border-radius(5px);
+	padding: 5px;
+}

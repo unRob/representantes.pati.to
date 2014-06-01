@@ -98,6 +98,46 @@
 	-webkit-animation: sumario 1s ease-in-out;
 }
 
+.flexible {
+	@include flex-container(row, space-between);
+
+	.flex-item {
+		@include flex-item(1);
+	}
+}
+
+#desempeno {
+
+	& h3 {
+		line-height: 40px;
+		text-transform: uppercase;
+	}
+
+}
+
+.numeralia {
+	text-align: center;
+	& .cantidad {
+		color: $gris-medio;
+		font-size: 48px;
+		font-weight: bold;
+		display: block;
+
+	}
+
+	& .text {
+		font-size: 14px;
+		font-weight: thin;
+	}
+}
+
+.cantidad {
+	&.safe		{ color: #03A316; }
+	&.cagandola { color: #FFA316; }
+	&.zurrandola{ color: #ff0000; }
+	&.diarrea	{ color: #600000; }
+}
+
 @media screen and (max-width: 660px) {
 	.headshot {
 		width: 70px;

@@ -6,6 +6,7 @@ class Actor
   embeds_one :meta, class_name: 'Meta'
   field :camara, type: String #local, federal, senado
   field :nombre, type: String
+  field :apellido, type: String
   field :distrito, type: String
   field :entidad, type: Integer
   #field :tipo_distrito, type: String #local, federal
@@ -19,7 +20,10 @@ class Actor
 
   embeds_many :puestos #de comisiones
 
-  embeds_many :reviews
+  embeds_one :inasistencias, class_name: 'Inasistencias'
+  embeds_one :votaciones, class_name: 'Votaciones'
+
+  embeds_many :revisiones, class_name: "Revision"
   field :imagen
   field :puestos, type: Array
   field :suplente, type: String
@@ -36,6 +40,14 @@ class Actor
   index({nombre: 1})
   index({entidad: 1})
   index({distrito: 1})
+
+  def nombre
+    if apellido
+      super+" "+apellido
+    else
+      super
+    end
+  end
 
   def self.deDistritos(distritos)
     dtos = distritos.map {|dto| dto.id}
@@ -104,11 +116,12 @@ class Actor
 end
 
 
-class Review
+class Revision
   include Mongoid::Document
 
-  field :created, type: Time, default: -> {Time.now}
-  field :reviewed, type: Boolean, default: false
+  embedded_in :actor
+  field :creada, type: Time, default: -> {Time.now}
+  field :aceptado, type: Boolean, default: false
   field :changeSet, type: Hash
 
 end
@@ -132,9 +145,34 @@ end
 class Link
   include Mongoid::Document
 
+  embedded_in :actor
   field :_id, type: NilClass, default: nil, overwrite: true
 
   field :servicio, type: String
   field :url, type: String
+
+end
+
+class Inasistencias
+  include Mongoid::Document
+
+  embedded_in :actor
+  field :_id, type: NilClass, default: nil, overwrite: true
+  field :total, type: Integer
+  field :sesiones, type: Integer
+  field :periodos, type: Hash
+
+end
+
+class Votaciones
+  include Mongoid::Document
+
+  embedded_in :actor
+  field :_id, type: NilClass, default: nil, overwrite: true
+  field :total, type: Integer
+  field :a_favor, type: Integer
+  field :en_contra, type: Integer
+  field :abstencion, type: Integer
+  field :ausente, type: Integer
 
 end

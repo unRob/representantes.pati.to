@@ -1,0 +1,7 @@
+:production:
+  facebook:
+    :app_id: 721115744615831
+
+:development:
+  facebook:
+      :app_id: 721116101282462
