@@ -159,4 +159,9 @@
 		width: 70px;
 		font-size: 13px;
 	}
+
+	.numeralia {
+		& .cantidad {font-size: 22px}
+		& .text {font-size: 10px}
+	}
 }

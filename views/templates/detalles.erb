@@ -93,6 +93,67 @@
 	</section>
 
 
+	<section class="info-actor" id="desempeno">
+		<h2>¿Cómo se desempeña?</h2>
+
+		{{#desempeno}}
+
+		{{#inasistencias}}
+		<h3><span class="icono">calendar</span> Asistencias</h3>
+
+		<div class="numeralia flexible flexible-3">
+			<div class="flex-item">
+				<span class="cantidad">{{inasistencias.total}}</span>
+				<span class="text">inasistencias</span>
+			</div>
+
+			<div class="flex-item">
+				<span class="cantidad">{{inasistencias.sesiones}}</span>
+				<span class="text">sesiones</span>
+			</div>
+
+			<div class="flex-item">
+				<span class="cantidad {{inasistencias.pc.clase}}">{{inasistencias.pc.valor}}%</span>
+				<span class="text">huevón</span>
+			</div>
+		</div>
+			
+		{{/inasistencias}}
+
+		{{#votaciones}}
+		<h3><span class="icono">scales</span> Votaciones</h3>
+
+		<div class="numeralia flexible flexible-4">
+			<div class="flex-item">
+				<span class="cantidad">{{votaciones.a_favor}}</span>
+				<span class="text">a favor</span>
+			</div>
+
+			<div class="flex-item">
+				<span class="cantidad">{{votaciones.en_contra}}</span>
+				<span class="text">en contra</span>
+			</div>
+
+			<div class="flex-item">
+				<span class="cantidad">{{votaciones.abstencion}}</span>
+				<span class="text">abstencion</span>
+			</div>
+
+			<div class="flex-item">
+				<span class="cantidad {{votaciones.pc.clase}}">{{votaciones.pc.valor}}%</span>
+				<span class="text">huevón</span>
+			</div>
+		</div>
+			
+		{{/votaciones}}
+		{{/desempeno}}
+		{{^desempeno}}
+		<p>No tenemos datos todavía :/</p>
+		{{/desempeno}}
+
+	</section>
+
+
 	<footer>
 		<p>Información obtenida de <a href="{{meta.fkey}}" target="_blank" title="Abrir la información de origen">{{meta.fkey}}</a>. Última actualización: {{meta.lastCrawl}}</p>
 	</footer>

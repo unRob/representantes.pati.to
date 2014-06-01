@@ -1,5 +1,16 @@
 # Representante
 
+porcentaje = (de, a)->
+	return 0 if a is 0
+	Math.round(de/a*100)
+
+clase = (pc)->
+	return 'safe' if (pc < 15)
+	return 'cagandola' if (pc < 30)
+	return 'zurrandola' if (pc < 70)
+	return 'diarrea'
+
+
 Representante = (data)->
 	@data = data
 	@orig = data
@@ -17,6 +28,18 @@ Representante = (data)->
 			links.push link
 
 	@data.links = links;
+
+	@data.desempeno = (@data.inasistencias || @data.votaciones)
+	if (@data.inasistencias)
+		pc = porcentaje(@data.inasistencias.total, @data.inasistencias.sesiones)
+		@data.inasistencias.pc =
+			valor: pc
+			clase: clase(pc)
+	if (@data.votaciones)
+		pc = porcentaje(@data.votaciones.ausente, @data.votaciones.total)
+		@data.votaciones.pc =
+			valor: pc
+			clase: clase(pc)
 
 	this
 
