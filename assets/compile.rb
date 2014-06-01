@@ -47,7 +47,7 @@ def onChanges changes
   end
 end
 
-listener = Listen.to("#{$root}", debug: true) do |mod, add, del|
+listener = Listen.to("#{$root}", debug: false) do |mod, add, del|
 
   del.each do |f|
     puts "DEL: #{f}"

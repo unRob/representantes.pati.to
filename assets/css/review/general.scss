@@ -1,0 +1,78 @@
+@import "_reset";
+@import "_attache";
+@import "_variables";
+@import "_shared";
+@import "_representante";
+@import "_detalles";
+@import "_forms";
+@import "_repeatable";
+@import "_botones";
+
+.headshot-container {
+	float: none;
+}
+
+.genero {
+	width: 50%;
+	font-size: 1em;
+	text-align: center;
+	display: block;
+	float: left;
+
+	& .icono {
+		font-size: 3em;
+		display: block;
+	}
+}
+
+.link {
+	display: -webkit-flex;
+}
+
+.link input {
+	-webkit-flex: 1;
+}
+
+
+.boton {
+	margin-top: 1em;
+}
+
+nav.tabs {
+	display: -webkit-flex;
+	margin-bottom: 1em;
+
+	& > a {
+		display: inline-block;
+		-webkit-flex: 1;
+		text-align: center;
+		color: $rosa;
+		text-decoration: none;	
+	}
+}
+
+
+.tab {
+	max-height: 600px;
+	overflow: scroll;
+}
+
+.perfil {
+	@include clearfix();
+
+	margin-bottom: 1em;
+
+	& .add {
+		float: left;
+		line-height: 50px;
+		width: 25px;
+		background: $rosa;
+		color: #fff;
+		text-align: center;
+	}
+
+	& img {
+		float: left;
+	}
+
+}

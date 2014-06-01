@@ -105,6 +105,92 @@
 		<hr />
 	</section>
 
+	<section class="info-actor" id="desempeno">
+		<h2>¿Cómo se desempeña?</h2>
+
+		<% if actor.inasistencias || actor.votaciones %>
+
+		<% if actor.inasistencias %>
+		<h3><span class="icono">calendar</span> Asistencias</h3>
+
+		<div class="numeralia flexible flexible-3">
+			<div class="flex-item">
+				<span class="cantidad"><%= actor.inasistencias.total %></span>
+				<span class="text">inasistencias</span>
+			</div>
+
+			<div class="flex-item">
+				<span class="cantidad"><%= actor.inasistencias.sesiones %></span>
+				<span class="text">sesiones</span>
+			</div>
+
+			<div class="flex-item">
+				<%
+					pc = (actor.inasistencias.total.to_f/actor.inasistencias.sesiones.to_f*100.00).round rescue 0
+					clase = case pc
+					when 0..15
+						'safe'
+					when 16..30
+						'cagandola'
+					when 31..70
+						'zurrandola'
+					else
+						'diarrea'
+					end
+				%>
+				<span class="cantidad <%= clase %>"><%= pc %>%</span>
+				<span class="text">huevón</span>
+			</div>
+		</div>
+			
+		<% end #inasistencias %>
+
+		<% if actor.votaciones %>
+		<h3><span class="icono">scales</span> Votaciones</h3>
+
+		<div class="numeralia flexible flexible-4">
+			<div class="flex-item">
+				<span class="cantidad"><%= actor.votaciones.a_favor %></span>
+				<span class="text">a favor</span>
+			</div>
+
+			<div class="flex-item">
+				<span class="cantidad"><%= actor.votaciones.en_contra %></span>
+				<span class="text">en contra</span>
+			</div>
+
+			<div class="flex-item">
+				<span class="cantidad"><%= actor.votaciones.abstencion %></span>
+				<span class="text">abstencion</span>
+			</div>
+
+			<div class="flex-item">
+				<%
+					pc = (actor.votaciones.ausente.to_f/actor.votaciones.total.to_f*100.00).round rescue 0
+					clase = case pc
+					when 0..15
+						'safe'
+					when 16..30
+						'cagandola'
+					when 31..70
+						'zurrandola'
+					else
+						'diarrea'
+					end
+				%>
+				<span class="cantidad <%= clase %>"><%= pc %>%</span>
+				<span class="text">huevón</span>
+			</div>
+		</div>
+			
+		<% end #votaciones%> 
+
+		<% else %>
+		<p>No tenemos datos todavía :/</p>
+		<% end %>
+
+	</section>
+
 
 	<footer>
 		<p>Información obtenida de <a href="<%= actor.meta.fkey %>" target="_blank" title="Abrir la información de origen"><%= actor.meta.fkey %></a>. Última actualización: <%= l(actor.meta.lastCrawl, '%d de %B, %y %H:%M:%S')%></p>

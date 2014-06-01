@@ -1,0 +1,106 @@
+<article class="hoja detalles-revision item-detalles">
+
+	<form action="/review/actor/<%= actor._id %>" method="post">
+
+		<header class="clearfix">
+			<div class="headshot-container">
+				<div class="headshot <%= actor.partido %>">
+					<div class="headshot-image" style="background-image:url(/actores/imagen/<%= actor.imagen %>)"></div>
+				</div>
+			</div>
+		</header>
+
+		<div class="form-group">
+			<input class="input-text" type="text" id="nombre" name="nombre" value="<%= nombre %>" required />
+			<input class="input-text" type="text" id="apellido" name="apellido" value="<%= apellido %>" required />
+		</div>
+
+		<% 
+			def checked haystack, needle
+				'checked="checked"' if haystack==needle
+			end
+		%>
+
+		<div class="form-group clearfix">
+			<label class="genero" for="genero-m">
+				<span class="icono">user</span>
+				<input type="radio" id="genero-m" name="genero" value="1" <%= checked(actor.genero, 1) %> />
+			</label>
+
+			<label class="genero" for="genero-f">
+				<span class="icono">femaleuser</span>
+				<input type="radio" id="genero-f" name="genero" value="0" <%= checked(actor.genero, 0) %> />
+			</label>
+		</div>
+
+		<% 
+			servicios = %w{twitter facebook instagram youtube http}
+		%>
+
+		<ul id="links" class="repeatable-container" data-sortable="false">
+			<% actor.links.each_with_index do |link, index| %>
+			<li class="link">
+				<a class="borra-repeatable icono btn btn-icono btn-danger">delete</a>
+				<select name="links[<%= index %>][servicio]">
+					<% servicios.each do |servicio| %>
+					<option value="<%= servicio %>" <%= "selected" if link.servicio == servicio %>><%= servicio %></option>
+					<% end %>
+				</select>
+				<input type="url" autocomplete="off" name="links[<%= index %>][url]" placeholder="http://unasunto.com" value="<%= link.url %>" required/>
+			</li>
+			<% end %>
+			<li class="link repeatable" tabindex="0">
+				<a class="borra-repeatable icono btn btn-icono btn-danger">delete</a>
+				<select disabled name="links[{{index}}][servicio]">
+					<% servicios.each do |servicio| %>
+					<option value="<%= servicio %>"><%= servicio %></option>
+					<% end %>
+				</select>
+				
+				<input disabled autocomplete="off" type="url" name="links[{{index}}][url]" placeholder="http://unasunto.com" required/>
+			</li>
+		</ul>
+
+
+		<nav class="tabs">
+			<a href="#" id="fb-lookup">
+				<span class="social-icon" class="facebook">facebook</span> Buscar en Facebook</a>
+			</a>
+			<a href="#" id="twitter-lookup">
+				<span class="social-icon" class="twitter">twitter</span> Buscar en Tuiter</a>
+			</a>
+			<a href="http://google.com/search?q=<%= actor.nombre.gsub(' ', '+') %>" target="_blank" class="">
+			<span class="social-icon">googleplus</span> Buscar en Google
+		</a>
+		</nav>
+
+
+		<div id="perfiles">
+			<input type="search" autocomplete="false" id="search-modifier" />
+
+			<div id="perfiles-facebook" class="tab">
+				<script type="text/html" id="perfil-facebook" class="render-template">
+					<div class="facebook-result perfil" id="perfil-facebook-{{id}}">
+						<img src="//graph.facebook.com/{{id}}/picture" />
+						<h3 class="perfil-nombre">{{name}}</h3>
+						<a class="perfil-visit" target="_blank" href="{{url}}">Visitar perfil</a>
+					</div>
+				</script>
+				<div class="results">
+				</div>
+			</div>
+
+			<div id="perfiles-tuiter" class="tab">
+				<iframe class="results">
+				</iframe>
+			</div>
+		</div>
+		
+
+		<button type="submit" class="boton">Guardar</button>
+
+	</form>
+
+</article>
+
+<%= erb :"partials/facebook" %>

@@ -23,7 +23,7 @@ end
 
 
 action = ARGV[0]
-$actions = %w{actores comisiones asistencias}
+$actions = %w{actores comisiones asistencias votaciones}
 $camaras = Dir.glob("camaras/*").reject {|c| !File.directory?(c) }.map {|c| c.gsub('camaras/', '')}
 
 def usage

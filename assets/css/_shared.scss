@@ -100,6 +100,9 @@ nav#social {
       &.linkedin {
         color: #0e76a8 !important;
       }
+      &.instagram {
+        color: #517fa4 !important;
+      }
       @include transform(scale(1.5));
       @include transition(all .2s ease-in);
       
