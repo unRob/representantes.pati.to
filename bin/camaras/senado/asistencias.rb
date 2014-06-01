@@ -1,39 +1,60 @@
-#!/usr/bin/env ruby
 # encoding: utf-8
+module Parser
 
-require '../common.rb'
-require_relative 'endpoints.rb'
+  module Senado
 
-START = Time.now
+    class Asistencias
 
-ids = [{id: 622}]
+      @ids = []
 
-lista = Crawler.new $endpoints[:asistencias]
-lista.requests = ids
+      def initialize
+        @ids = []
+        actores = ::Actor.where({camara: 'senado'})#, inasistencias: nil})
+        actores.each do |actor|
+          fid = actor.meta.fkey.scan(/id=(\d+)/).flatten[0]
+          @ids << {id: fid, actor: actor}
+        end
 
-puts "Buscando asistencias... "
+        $hydra = Typhoeus::Hydra.new(max_concurrency: 1)
+      end
 
-lista.run do |response, request|
-  doc = Nokogiri::HTML(response.body)
+      def lista
+        @ids
+      end
 
-  faltas = {
-    total: 0
-  }
-  doc.css('#contenido_informacion tbody').each do |row|
-    fecha = Date.parse row.css('a').attr('href').text.scan(/f=(.+)/).flatten[0]
-    falta = row.css('td:last-child').text =~ /ausente/i
-    
-    faltas[fecha.year] = faltas[fecha.year] || {total: 0, "#{fecha.month}" => 0}
-    faltas[fecha.year][fecha.month] ||= 0
+      def parse data, request
+        dom = Nokogiri::HTML(data)
+        dom.encoding = 'utf-8'
 
-    if falta
-      faltas[:total] += 1
-      faltas[fecha.year][:total] += 1
-      faltas[fecha.year][fecha.month] += 1
-    end
+        asistencias = {
+          sesiones: 0,
+          total: 0,
+          periodos: {}
+        }
 
-  end
-end
+        dom.css('td[width="70%"]').each do |tr|
+          row = tr.parent
+          fecha = Date.parse row.css('a').attr('href').text.scan(/f=(.+)/).flatten[0]
+          falta = row.css('td:last-child').text =~ /ausente/i
 
-elapsed = Time.now-START
-puts "Tardamos: #{elapsed.to_i}s"
+          asistencias[:sesiones] += 1
+
+          key = "#{fecha.year}-#{fecha.month.to_s.rjust(2, '0')}"
+          
+          asistencias[:periodos][key] ||= 0
+          if falta
+            asistencias[:total] += 1
+            asistencias[:periodos][key] += 1 
+          end
+        end
+
+        asistencias[:periodos] = asistencias[:periodos].sort.to_h
+
+        return asistencias
+      end
+
+    end #class
+
+  end #senado
+
+end #parser
