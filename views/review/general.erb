@@ -38,7 +38,7 @@
 		%>
 
 		<ul id="links" class="repeatable-container" data-sortable="false">
-			<% actor.links.each_with_index do |link, index| %>
+			<% actor.links.ne(servicio: 'postal').each_with_index do |link, index| %>
 			<li class="link">
 				<a class="borra-repeatable icono btn btn-icono btn-danger">delete</a>
 				<select name="links[<%= index %>][servicio]">
