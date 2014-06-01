@@ -48,7 +48,7 @@ module Parser
           end
         end
 
-        asistencias[:periodos] = asistencias[:periodos].sort.to_h
+        asistencias[:periodos] = Hash[asistencias[:periodos].sort]
 
         return asistencias
       end
