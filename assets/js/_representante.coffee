@@ -7,7 +7,7 @@ porcentaje = (de, a)->
 clase = (pc)->
 	return 'safe' if (pc > 75)
 	return 'cagandola' if (pc > 50)
-	return 'zurrandola' if (pc < 30)
+	return 'zurrandola' if (pc > 30)
 	return 'diarrea'
 
 

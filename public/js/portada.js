@@ -974,7 +974,7 @@ clase = function(pc) {
   if (pc > 50) {
     return 'cagandola';
   }
-  if (pc < 30) {
+  if (pc > 30) {
     return 'zurrandola';
   }
   return 'diarrea';
