@@ -34,21 +34,20 @@ module Parser
 
         dom.css('td[width="70%"]').each do |tr|
           row = tr.parent
-          fecha = Date.parse row.css('a').attr('href').text.scan(/f=(.+)/).flatten[0]
+          fecha = row.css('a').attr('href').text.scan(/f=(.+)/).flatten[0]
           falta = row.css('td:last-child').text =~ /ausente/i
 
           asistencias[:sesiones] += 1
-
-          key = "#{fecha.year}-#{fecha.month.to_s.rjust(2, '0')}"
           
-          asistencias[:periodos][key] ||= 0
+          asistencias[:periodos][fecha] ||= 0
           if falta
             asistencias[:total] += 1
-            asistencias[:periodos][key] += 1 
+            asistencias[:periodos][fecha] += 1 
           end
         end
 
         asistencias[:periodos] = Hash[asistencias[:periodos].sort]
+
 
         return asistencias
       end
