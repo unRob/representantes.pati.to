@@ -106,6 +106,7 @@ module Parser
 
         end
 
+        votaciones[:periodos] = Hash[votaciones[:periodos].sort]
 
         
         return votaciones
