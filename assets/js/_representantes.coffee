@@ -1,12 +1,14 @@
 Representantes = {}
 
 Representantes.seccion = null;
+Representantes.loaded_extra = false
 Representantes.query = (url, data)->
 	req = $.ajax {
 		url: "/actores/#{url}",
 		data: data,
 		type: 'post'
 	}
+
 	req
 
 Representantes.actores = {}

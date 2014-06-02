@@ -2,18 +2,18 @@
 
 porcentaje = (de, a)->
 	return 0 if a is 0
-	Math.round(de/a*100)
+	100-Math.round(de/a*100)
 
 clase = (pc)->
-	return 'safe' if (pc < 15)
-	return 'cagandola' if (pc < 30)
-	return 'zurrandola' if (pc < 70)
+	return 'safe' if (pc > 75)
+	return 'cagandola' if (pc > 50)
+	return 'zurrandola' if (pc < 30)
 	return 'diarrea'
 
 
 Representante = (data)->
 	@data = data
-	@orig = data
+	@orig = $.extend({}, data)
 	links = []
 	postal = null
 	for link in @data.links
@@ -30,16 +30,28 @@ Representante = (data)->
 	@data.links = links;
 
 	@data.desempeno = (@data.inasistencias || @data.votaciones)
-	if (@data.inasistencias)
+	
+	if (@data.inasistencias && !@data.inasistencias.pc)
 		pc = porcentaje(@data.inasistencias.total, @data.inasistencias.sesiones)
 		@data.inasistencias.pc =
 			valor: pc
 			clase: clase(pc)
-	if (@data.votaciones)
+		periodosAsistencias = []
+
+		for k,v of @data.inasistencias.periodos
+			periodosAsistencias.push {fecha: k, valor: v}
+		@data.inasistencias.periodos = periodosAsistencias
+			
+	if (@data.votaciones && !@data.votaciones.pc)
 		pc = porcentaje(@data.votaciones.ausente, @data.votaciones.total)
 		@data.votaciones.pc =
 			valor: pc
 			clase: clase(pc)
+
+		periodosVotaciones = []
+		for k,v of @data.votaciones.periodos
+			periodosVotaciones.push {fecha: k, valor: porcentaje(v.ausente, v.total)}
+		@data.votaciones.periodos = periodosVotaciones
 
 	this
 

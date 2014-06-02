@@ -38,12 +38,14 @@ module Parser
           falta = row.css('td:last-child').text =~ /ausente/i
 
           asistencias[:sesiones] += 1
+          fue = true
           
-          asistencias[:periodos][fecha] ||= 0
           if falta
             asistencias[:total] += 1
-            asistencias[:periodos][fecha] += 1 
+            fue = false
           end
+
+          asistencias[:periodos][fecha] = fue
         end
 
         asistencias[:periodos] = Hash[asistencias[:periodos].sort]

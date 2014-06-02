@@ -99,50 +99,62 @@
 		{{#desempeno}}
 
 		{{#inasistencias}}
-		<h3><span class="icono">calendar</span> Asistencias</h3>
+		<div class="stats clearfix">
+			<h3><span class="icono main-icon">calendar</span> Asistencias</h3>
 
-		<div class="numeralia flexible flexible-3">
-			<div class="flex-item">
-				<span class="cantidad">{{inasistencias.total}}</span>
-				<span class="text">inasistencias</span>
+			<ul class="hidden" id="data-asistencias">
+				{{#inasistencias.periodos}}
+				<li class="asistencia">
+					<dt>{{fecha}}</dt>
+					<dd>{{asistencia}}</dd>
+				</li>
+				{{/inasistencias.periodos}}
+			</ul>
+
+			<p class="ala-grafica left">
+				<span class="numero">{{inasistencias.total}}</span> inasistencias 
+			</p>
+
+			<p class="ala-grafica right">
+				<span class="numero">{{inasistencias.sesiones}}</span> sesiones 
+			</p>
+
+			<div class="indicador-principal">
+				<span class="cantidad {{inasistenciass.pc.clase}}">{{inasistencias.pc.valor}}%</span>
+				<span class="text">asistencias</span>
 			</div>
 
-			<div class="flex-item">
-				<span class="cantidad">{{inasistencias.sesiones}}</span>
-				<span class="text">sesiones</span>
-			</div>
-
-			<div class="flex-item">
-				<span class="cantidad {{inasistencias.pc.clase}}">{{inasistencias.pc.valor}}%</span>
-				<span class="text">huevón</span>
-			</div>
 		</div>
 			
 		{{/inasistencias}}
 
 		{{#votaciones}}
-		<h3><span class="icono">scales</span> Votaciones</h3>
+		<div class="stats">
+			<h3><span class="icono main-icon">scales</span> Votaciones</h3>
 
-		<div class="numeralia flexible flexible-4">
-			<div class="flex-item">
-				<span class="cantidad">{{votaciones.a_favor}}</span>
-				<span class="text">a favor</span>
-			</div>
+			<ul class="hidden" id="data-votaciones">
+				{{#votaciones.periodos}}
+				<li class="asistencia">
+					<dt>{{fecha}}</dt>
+					<dd>{{asistencia}}</dd>
+				</li>
+				{{/votaciones.periodos}}
+			</ul>
 
-			<div class="flex-item">
-				<span class="cantidad">{{votaciones.en_contra}}</span>
-				<span class="text">en contra</span>
-			</div>
+			<p class="ala-grafica left">
+				<span class="numero">{{votaciones.ausente}}</span> ausencias 
+			</p>
 
-			<div class="flex-item">
-				<span class="cantidad">{{votaciones.abstencion}}</span>
-				<span class="text">abstencion</span>
-			</div>
+			<p class="ala-grafica right">
+				<span class="numero">{{votaciones.total}}</span> votaciones 
+			</p>
 
-			<div class="flex-item">
+			<div class="indicador-principal">
 				<span class="cantidad {{votaciones.pc.clase}}">{{votaciones.pc.valor}}%</span>
-				<span class="text">huevón</span>
+				<span class="text">asistencias</span>
 			</div>
+		</div>
+
 		</div>
 			
 		{{/votaciones}}

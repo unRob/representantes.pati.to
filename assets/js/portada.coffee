@@ -9,6 +9,9 @@
 #= require _representante
 #= require _representantes
 #= require _history
+#= require _d3
+#= require _asistencias
+#= require _votaciones
 
 $ ()->
 
@@ -44,18 +47,36 @@ $ ()->
 
 	quitaDetalles = (evt)->
 		return false unless $('body').hasClass('covered')
-		History.back();
+		#History.back();
 		evt && evt.preventDefault();
 		$('#cover').addClass('inactive');
 		$('body').removeClass('covered');
 
 	MuestraUnRepresentante = (actor)->
+		return if mostrandoRep
 		console.log('Mostrando un representante')
 		$('body').addClass('covered');
 		$('#cover').html(actor.detalles()).removeClass('inactive').click quitaDetalles
 		$('.info-close').click quitaDetalles
+		
+		$('#data-asistencias').replaceWith('<div id="grafica-asistencias" class="grafica">')
+		grafica_asistencias = new Asistencias('#grafica-asistencias', actor.data.inasistencias.periodos);
+		grafica_asistencias.draw();
+		
+		console.log actor.data.inasistencias.periodos[0], actor.data.votaciones.periodos[0]
+
+		$('#data-votaciones').replaceWith('<div id="grafica-votaciones" class="grafica">')
+		grafica_votaciones = new Votaciones('#grafica-votaciones', actor.data.votaciones.periodos);
+		grafica_votaciones.draw();
+		
+		NotificationCenter.on 'resize', ()->
+			grafica_asistencias.resize();
+			grafica_votaciones.resize();
+
 		$('#cover .hoja').click (evt)->
 			evt.stopPropagation();
+
+		mostrandoRep = false
 
 	MuestraRepresentantes = (reps)->
 		html = ''
@@ -78,7 +99,9 @@ $ ()->
 		MuestraSeccion(data.seccion);
 
 	navigation['representantes-show'] = (data)->
+		return if mostrandoRep
 		actor = Representantes.find(data.data.id)
+		console.log 'nav show'
 		MuestraUnRepresentante(actor)
 
 
@@ -155,11 +178,13 @@ $ ()->
 
 
 	$('#cover').appendTo('body');
+	mostrandoRep = false
 	$('#representantes').on 'click', '.representante', (evt)->
 		evt.preventDefault();
 		id = this.id.split('-')[1];
 		actor = Representantes.find(id);
 		MuestraUnRepresentante(actor);
+		mostrandoRep = true
 		History.pushState.apply(null, actor.state())
 
 
