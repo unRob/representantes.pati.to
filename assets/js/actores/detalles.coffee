@@ -1,5 +1,6 @@
 #= require _jquery
 #= require _shared
+#= require _d3
 
 $ ()->
 
@@ -103,6 +104,10 @@ $ ()->
 				.append('svg:svg')
 				.attr('width', @container.width())
 				.attr('height', 100)
+
+		@overlay = d3.select('#grafica-votaciones').append('div')
+				.attr("class", "grafica-overlay")
+
 		@tt = d3.select('#grafica-votaciones')
 				.append('div')
 					.attr('class', 'graph-tooltip')
@@ -132,27 +137,20 @@ $ ()->
 			.attr('fill', 'transparent')
 
 
-		@svg.append('g').selectAll('.punto-votacion')
-			.data(@data)
-			.enter()
-				.append('circle')
-				.attr('class', 'punto-votacion')
-				.attr('r', '2')
-				.attr('cx', (d, i)-> self.x(i) )
-				.attr('cy', (d)-> self.y(d.valor) )
-
-
-		@rect = @svg.append('rect')
-				.attr("class", "overlay")
-				.attr('opacity', 0)
-				.attr("width", @container.width())
-				.attr("height", @container.height())
+		#@svg.append('g').selectAll('.punto-votacion')
+		#	.data(@data)
+		#	.enter()
+		#		.append('circle')
+		#		.attr('class', 'punto-votacion')
+		#		.attr('r', '2')
+		#		.attr('cx', (d, i)-> self.x(i) )
+		#		.attr('cy', (d)-> self.y(d.valor) )
 
 		@inc = @x(1)-@x(0)
-		@rect.on 'mouseout', ()->
+		@overlay.on 'mouseout', ()->
 			self.tt.classed('shown', false)
 
-		@rect.on 'mousemove', ()->
+		@overlay.on 'mousemove', ()->
 			x0 = self.x.invert(d3.mouse(this)[0])
 			x = Math.round(x0)
 			punto = self.data[x]
@@ -171,10 +169,6 @@ $ ()->
 		@calculaTamano()
 		@svg.transition()
 			.attr('width', @container.width())
-
-		@svg.selectAll('.overlay')
-			.attr("width", @container.width())
-			.attr("height", @container.height())
 
 		@svg.selectAll('.linea-votacion').transition()
 			.attr('d', @line)

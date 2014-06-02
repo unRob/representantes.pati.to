@@ -132,14 +132,15 @@ $rojo: #f00000;
 	stroke-width: 2;
 }
 
-.punto-votacion {
-	fill: $rosa;
-	opacity: 0;
-
-	&:hover {
-		opacity: 1;
-	}
+.grafica-overlay {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1000;
 }
+
 
 .hidden {
 	display: none;
@@ -157,9 +158,11 @@ $tt-color: rgba(0,0,0,.8);
 	padding: 3px 5px;
 	border-radius: 5px;
 	opacity: 0;
+	@include transition(opacity .5s ease-in-out);
 
 	&.shown {
 		opacity: 1;
+		@include transition(opacity .5s ease-in-out);
 	}
 
 	&:after {

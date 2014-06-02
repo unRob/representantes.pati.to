@@ -136,11 +136,11 @@
 
 					pc = 100 - (actor.inasistencias.total.to_f/actor.inasistencias.sesiones.to_f*100.00).round
 					clase = case pc
-					when 0..15
-						'diarrea'		
-					when 16..30
+					when 0..30
+						'diarrea'
+					when 31..50
 						'zurrandola'
-					when 31..70
+					when 51..75
 						'cagandola'
 					else
 						'safe'
@@ -180,11 +180,11 @@
 
 					pc = 100 - (actor.votaciones.ausente.to_f/actor.votaciones.total.to_f*100.00).round
 					clase = case pc
-					when 0..15
-						'diarrea'		
-					when 16..30
+					when 0..30
+						'diarrea'
+					when 31..50
 						'zurrandola'
-					when 31..70
+					when 51..75
 						'cagandola'
 					else
 						'safe'
@@ -207,5 +207,4 @@
 	<footer>
 		<p>Información obtenida de <a href="<%= actor.meta.fkey %>" target="_blank" title="Abrir la información de origen"><%= actor.meta.fkey %></a>. Última actualización: <%= l(actor.meta.lastCrawl, '%d de %B, %y %H:%M:%S')%></p>
 	</footer>
-	<script src="http://d3js.org/d3.v3.min.js"></script>
 </article>
