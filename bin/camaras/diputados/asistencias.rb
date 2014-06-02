@@ -11,7 +11,12 @@ module Parser
 
       def initialize
         @ids = []
-        actores = ::Actor.where({camara: 'diputados'})#, inasistencias: nil})
+        where = {camara: 'diputados'}
+        #where[:inasistencias] = nil
+        #where = {
+        #  :"meta.fkey" => {'$in' => %w{http://sitl.diputados.gob.mx/LXII_leg/curricula.php?dipt=7 http://sitl.diputados.gob.mx/LXII_leg/curricula.php?dipt=104 http://sitl.diputados.gob.mx/LXII_leg/curricula.php?dipt=39 http://sitl.diputados.gob.mx/LXII_leg/curricula.php?dipt=408} }
+        #}
+        actores = ::Actor.where(where)
         actores.each do |actor|
           fid = actor.meta.fkey.gsub(/\D/, '')
           @ids << {id: fid, actor: actor}
@@ -68,7 +73,7 @@ module Parser
             next
           end
 
-          key = "#{yyyy}-#{mm}"
+          base = "#{yyyy}-#{mm}"
          
           
           dias = mes.css('td[bgcolor="#D6E2E2"]')
@@ -78,15 +83,18 @@ module Parser
 
           total_periodo = 0
           dias.each do |dia|
-            if dia.text.strip.match(/(AC|I\b|IV)/)
+            dia,asistencia = dia.css('div font').inner_html.split('<br>')
+            fue = true
+            if asistencia.match(/(AC|I\b|IV)/)
               total_periodo += 1
+              fue = false
             end
+            res[:periodos]["#{base}-#{dia.rjust(2,'0')}"] = fue
           end
 
           res[:sesiones] += dias.count
           res[:total] += total_periodo
-          res[:periodos][key] = total_periodo
-          #Log.debug "#{key}: #{total_periodo}/#{dias.count}"
+          
         end
 
         res

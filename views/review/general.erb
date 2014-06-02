@@ -1,6 +1,6 @@
 <article class="hoja detalles-revision item-detalles">
 
-	<form action="/review/actor/<%= actor._id %>" method="post">
+	<form class="item-info" action="/review/actor/<%= actor._id %>" method="post">
 
 		<header class="clearfix">
 			<div class="headshot-container">
@@ -11,6 +11,11 @@
 		</header>
 
 		<div class="form-group">
+			<p class="item-byline">
+				<span class="camara"><%= actor.congreso %></span>,
+				<span><%= actor.poblacion %></span>, 
+				<span><%= actor.eleccion %></span>
+			</p>
 			<input class="input-text" type="text" id="nombre" name="nombre" value="<%= nombre %>" required />
 			<input class="input-text" type="text" id="apellido" name="apellido" value="<%= apellido %>" required />
 		</div>

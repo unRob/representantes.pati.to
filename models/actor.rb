@@ -174,5 +174,6 @@ class Votaciones
   field :en_contra, type: Integer
   field :abstencion, type: Integer
   field :ausente, type: Integer
+  field :periodos, type: Hash
 
 end

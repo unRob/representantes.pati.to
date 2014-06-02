@@ -7,10 +7,12 @@ camara = "Parser::#{$camara.to_constant}".constantize
 
 if ARGV[1] == 'test'
   Log.info "Corriendo pruebas"
-  if camara.respond_to?(:test)
-    camara.test(); 
+  if camara::Votaciones.respond_to?(:test)
+    camara::Votaciones.test(); 
     exit
   else
+    puts 'camara test :('
+    exit
     TEST = true
   end
 else

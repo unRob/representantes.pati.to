@@ -111,9 +111,108 @@
 	& h3 {
 		line-height: 40px;
 		text-transform: uppercase;
+		height: 40px;
+		margin: 15px 0;
 	}
 
 }
+
+$verde: #03A316;
+$rojo: #f00000;
+
+.asistencia {
+	fill: $verde;
+	&.ausente {
+		opacity: .2;
+	}
+}
+
+.linea-votacion {
+	stroke: $rosa;
+	stroke-width: 2;
+}
+
+.punto-votacion {
+	fill: $rosa;
+	opacity: 0;
+
+	&:hover {
+		opacity: 1;
+	}
+}
+
+.hidden {
+	display: none;
+}
+
+.grafica {
+	position: relative;
+}
+
+$tt-color: rgba(0,0,0,.8);
+.graph-tooltip {
+	background: $tt-color;
+	color: #fff;
+	position: absolute;
+	padding: 3px 5px;
+	border-radius: 5px;
+	opacity: 0;
+
+	&.shown {
+		opacity: 1;
+	}
+
+	&:after {
+		content: '';
+		position: absolute;
+		top: 100%;
+		left: 50%;
+		margin-left: -8px;
+		width: 0;
+		height: 0;
+		border-top: 8px solid $tt-color;
+		border-right: 8px solid transparent;
+		border-left: 8px solid transparent;
+	}
+}
+
+.indicador-principal {
+	text-align: center;
+	& .cantidad {
+		color: $gris-medio;
+		font-size: 48px;
+		font-weight: bold;
+		display: block;
+		font-family: 'Fira Sans', 'Helvetica Neue', Helvetica, sans-serif;
+	}
+
+	& .text {
+		font-size: 14px;
+		font-weight: 400;
+		margin-top: -0.2em;
+		display: block;
+	}
+	margin-bottom: 1em;
+}
+
+.ala-grafica {
+	font-size: .8em;
+	float: left;
+	color: $gris-claro;
+
+	.numero {
+		font-weight: bold;
+		font-family: 'Fira Sans', 'Helvetica Neue', Helvetica, sans-serif;
+	}
+
+
+	&.right {float: right}
+
+	&:hover {
+		color: $gris-medio;
+	}
+}
+
 
 .numeralia {
 	text-align: center;
@@ -122,12 +221,18 @@
 		font-size: 48px;
 		font-weight: bold;
 		display: block;
-
+		line-height: 1em;
+		font-family: 'Fira Sans', 'Helvetica Neue', Helvetica, sans-serif;
 	}
 
 	& .text {
 		font-size: 14px;
 		font-weight: thin;
+	}
+
+	& .icono {
+		text-decoration: none;
+		color: $gris-claro;
 	}
 }
 

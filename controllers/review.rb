@@ -30,7 +30,7 @@ class RepresentantesApp < Sinatra::Base
 
 
     get '/generales' do
-      a = Actor.or({:apellido.exists => false}, {:genero.exists => false}).only(:nombre, :apellido, :genero, :links, :camara, :meta, :imagen, :partido).first
+      a = Actor.or({:apellido.exists => false}, {:genero.exists => false}).first
 
       nombre, apellido = split_nombre(a.nombre)
       genero = a.genero
@@ -40,7 +40,7 @@ class RepresentantesApp < Sinatra::Base
     end
 
     get '/generales/:id' do |id|
-      a = Actor.only(:nombre, :apellido, :genero, :links, :camara, :meta, :imagen, :partido).find(id)
+      a = Actor.find(id)
 
       nombre, apellido = split_nombre(a.nombre)
       nombre = nombre

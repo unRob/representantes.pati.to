@@ -46,6 +46,7 @@ class Crawler
         'X-User-Agent' => 'Crawler/1.0 http..//representantes.pati.to'
       }
       
+      request[:tries] = 1
       #Typhoeus::Config.verbose = true
       req = Typhoeus::Request.new(url, timeout: 60, headers: h)
       req.on_complete do |res|
@@ -54,7 +55,8 @@ class Crawler
           yield res, request
         elsif res.timed_out?
           Log.error "Timeout #{url}"
-          this_run.push(request)
+          $hydra.queue(req) if request[:tries] < 3
+          request[:tries] += 1
         else
           Log.error "Request Error: #{res.code}"
           Log.error url

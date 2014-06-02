@@ -7,7 +7,9 @@
 
 	emit = (evt, data)->
 		cbs = evt_callbacks[evt]
-		return console.error "No puedo notificar a <#{evt}>, porque no tengo callbacks" if !cbs
+		if !cbs
+			console.error "No puedo notificar a <#{evt}>, porque no tengo callbacks"
+			return
 
 		for callback in cbs
 			try
@@ -23,3 +25,12 @@
 		emit: emit
 
 )(window)
+
+$ ()->
+	resizeTO = null
+
+	$(window).on 'resize', ()->
+		clearTimeout resizeTO
+		resizeTO = setTimeout ()->
+			NotificationCenter.emit 'resize'
+		, 250

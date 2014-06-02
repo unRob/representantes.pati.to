@@ -38,7 +38,7 @@ def onChanges changes
     if contents
       puts "Guardando #{change.relative_path}"
       if $opts[:compress] && change.type == :js
-        contents = Uglifier.compile(contents)
+        #contents = Uglifier.compile(contents)
       end
       save(p, contents) 
     else

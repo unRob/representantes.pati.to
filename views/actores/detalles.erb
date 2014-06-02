@@ -40,7 +40,7 @@
 		<h2>¿Cómo me pongo en contacto?</h2>
 
 		<div class="contacto-actor">
-			<span class="icono">phone</span>
+			<span class="icono main-icon">phone</span>
 			<div class="contacto-data">
 				<ul>
 				<% actor.telefonos.each do |telefono| %>
@@ -59,7 +59,7 @@
 		</div>
 
 		<div class="contacto-actor">
-			<span class="icono">email</span>
+			<span class="icono main-icon">email</span>
 			<div class="contacto-data">
 				<a href="mailto:<%= actor.correo %>" title="Enviarle un correo a este representante"><%= actor.correo %></a>
 			</div>
@@ -72,7 +72,7 @@
 			if postal
 		%>
 		<div class="contacto-actor contacto-full">
-			<span class="icono">office</span>
+			<span class="icono main-icon">office</span>
 			<div class="contacto-data">
 				<%= postal.url %>
 			</div>
@@ -110,79 +110,91 @@
 
 		<% if actor.inasistencias || actor.votaciones %>
 
-		<% if actor.inasistencias %>
-		<h3><span class="icono">calendar</span> Asistencias</h3>
+		<% if actor.inasistencias && actor.inasistencias.sesiones != 0%>
+		<div class="stats clearfix">
+			<h3><span class="icono main-icon">calendar</span> Asistencias</h3>
 
-		<div class="numeralia flexible flexible-3">
-			<div class="flex-item">
-				<span class="cantidad"><%= actor.inasistencias.total %></span>
-				<span class="text">inasistencias</span>
-			</div>
+			<ul class="hidden" id="data-asistencias">
+				<% actor.inasistencias[:periodos].each do |fecha, asistencia| %>
+					<li class="asistencia">
+						<dt><%= fecha %></dt>
+						<dd><%= asistencia ? 'si' : 'no' %></dd>
+					</li>
+				<% end %>
+			</ul>
 
-			<div class="flex-item">
-				<span class="cantidad"><%= actor.inasistencias.sesiones %></span>
-				<span class="text">sesiones</span>
-			</div>
+			<p class="ala-grafica left">
+				<span class="numero"><%= actor.inasistencias.total %></span> inasistencias 
+			</p>
 
-			<div class="flex-item">
+			<p class="ala-grafica right">
+				<span class="numero"><%= actor.inasistencias.sesiones %></span> sesiones 
+			</p>
+
+			<div class="indicador-principal">
 				<%
-					pc = (actor.inasistencias.total.to_f/actor.inasistencias.sesiones.to_f*100.00).round rescue 0
+
+					pc = 100 - (actor.inasistencias.total.to_f/actor.inasistencias.sesiones.to_f*100.00).round
 					clase = case pc
 					when 0..15
-						'safe'
+						'diarrea'		
 					when 16..30
-						'cagandola'
-					when 31..70
 						'zurrandola'
+					when 31..70
+						'cagandola'
 					else
-						'diarrea'
+						'safe'
 					end
 				%>
 				<span class="cantidad <%= clase %>"><%= pc %>%</span>
-				<span class="text">huevón</span>
+				<span class="text">asistencias</span>
 			</div>
+
 		</div>
 			
 		<% end #inasistencias %>
 
 		<% if actor.votaciones %>
-		<h3><span class="icono">scales</span> Votaciones</h3>
+		<div class="stats">
+			<h3><span class="icono main-icon">scales</span> Votaciones</h3>
 
-		<div class="numeralia flexible flexible-4">
-			<div class="flex-item">
-				<span class="cantidad"><%= actor.votaciones.a_favor %></span>
-				<span class="text">a favor</span>
-			</div>
+			<ul class="hidden" id="data-votaciones">
+				<% actor.votaciones[:periodos].each do |fecha, votos| %>
+					<li class="votacion">
+						<dt><%= fecha %></dt>
+						<dd><%= 100-(votos['ausente'].to_f/votos['total'].to_f*100).round %></dd>
+					</li>
+				<% end %>
+			</ul>
 
-			<div class="flex-item">
-				<span class="cantidad"><%= actor.votaciones.en_contra %></span>
-				<span class="text">en contra</span>
-			</div>
+			<p class="ala-grafica left">
+				<span class="numero"><%= actor.votaciones.ausente %></span> ausencias 
+			</p>
 
-			<div class="flex-item">
-				<span class="cantidad"><%= actor.votaciones.abstencion %></span>
-				<span class="text">abstencion</span>
-			</div>
+			<p class="ala-grafica right">
+				<span class="numero"><%= actor.votaciones.total %></span> votaciones 
+			</p>
 
-			<div class="flex-item">
+			<div class="indicador-principal">
 				<%
-					pc = (actor.votaciones.ausente.to_f/actor.votaciones.total.to_f*100.00).round rescue 0
+
+					pc = 100 - (actor.votaciones.ausente.to_f/actor.votaciones.total.to_f*100.00).round
 					clase = case pc
 					when 0..15
-						'safe'
+						'diarrea'		
 					when 16..30
-						'cagandola'
-					when 31..70
 						'zurrandola'
+					when 31..70
+						'cagandola'
 					else
-						'diarrea'
+						'safe'
 					end
 				%>
 				<span class="cantidad <%= clase %>"><%= pc %>%</span>
-				<span class="text">huevón</span>
+				<span class="text">asistencias</span>
 			</div>
-		</div>
-			
+
+		</div>			
 		<% end #votaciones%> 
 
 		<% else %>
@@ -195,4 +207,5 @@
 	<footer>
 		<p>Información obtenida de <a href="<%= actor.meta.fkey %>" target="_blank" title="Abrir la información de origen"><%= actor.meta.fkey %></a>. Última actualización: <%= l(actor.meta.lastCrawl, '%d de %B, %y %H:%M:%S')%></p>
 	</footer>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
 </article>
