@@ -32,6 +32,7 @@ Geo.trigger = (evt, data={})->
 
 Geo.error = (data)->
 	console.error data
+	Geo.trigger 'error'
 
 Geo.aquired = (pos)->
 	ngl = pos.hasOwnProperty('coords')
