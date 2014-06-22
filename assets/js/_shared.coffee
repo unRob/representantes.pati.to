@@ -20,8 +20,12 @@
 				console.error(e.stack)
 				console.log(e)
 
+	_off = (evt)->
+		evt_callbacks[evt] = []
+
 	w.NotificationCenter =
 		on: _on,
+		off: _off,
 		emit: emit
 
 )(window)

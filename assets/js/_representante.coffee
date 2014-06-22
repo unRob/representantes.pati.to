@@ -55,12 +55,52 @@ Representante = (data)->
 
 	this
 
+Representante.show = (rep, els)->
+	els.body.addClass('covered')
+
+	rep = new Representante(rep)
+	back = (evt)->
+		console.log('back')
+		evt.preventDefault()
+		History.back()
+		NotificationCenter.off 'resize'
+
+	els.cover.html(rep.detalles()).removeClass('inactive').one 'click', back
+	$('.info-close').one 'click', back
+
+	gA = rep.graficas.Asistencias.call(rep)
+	gV = rep.graficas.Votaciones.call(rep)
+
+	if gA || gV
+		NotificationCenter.on 'resize', ()->
+			gA.resize()
+			gV.resize()
+
+	$('#cover .hoja').click (evt)-> evt.stopPropagation()
+
+
+Representante::graficas = {}
+Representante::graficas.Asistencias = ()->
+	return unless @data.inasistencias
+	$('#data-asistencias').replaceWith('<div id="grafica-asistencias" class="grafica">')
+	grafica = new Asistencias('#grafica-asistencias', @data.inasistencias.periodos)
+	grafica.draw()
+	grafica
+
+Representante::graficas.Votaciones = ()->
+	return unless @data.votaciones
+	$('#data-votaciones').replaceWith('<div id="grafica-votaciones" class="grafica">')
+	grafica = new Votaciones('#grafica-votaciones', @data.votaciones.periodos)
+	grafica.draw()
+	grafica
+
+
 Representante::state = ()->
 	url = "/actores/#{@data.stub}/#{@data.id}"
 	title = "Detalles de #{@data.nombre}"
 	data = {
-		evt: 'representantes-show',
-		data: this
+		evt: 'Representante.show',
+		data: @orig
 	}
 	[data, title, url];
 

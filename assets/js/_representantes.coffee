@@ -22,7 +22,7 @@ Representantes.state = ()->
 	for id, rep of reps
 		actores.push(rep.orig)
 	data =
-		evt: 'representantes-lista',
+		evt: 'Representantes.show',
 		data: {
 			seccion: seccion,
 			representantes: actores
@@ -41,6 +41,22 @@ Representantes.deUbicacion = (coords, callback)->
 		callback('error', xhr.responseJSON)
 
 
+Representantes.show = (data,els)->
+	els.cover.addClass('inactive')
+	$('body').removeClass('covered')
+	html = ''
+	Representantes.parse(data.representantes)
+	mapita.setPolygons(data.seccion.coords.coordinates)
+	html += actor.toString() for id, actor of Representantes.actores
+	els.representantes.html(html)
+	Representantes.filtros()
+
+Representantes.filtros = ()->
+	filtros = window.filtros()
+	activos = filtros.activos.map((a)-> ".#{a}").join(', ');
+	inactivos = filtros.inactivos.map((i)-> ".#{i}").join(', ');
+	$(activos).show();
+	$(inactivos).hide();
 
 
 Representantes.parse = (reps)->

@@ -6,14 +6,17 @@ class RepresentantesApp < Sinatra::Base
 
     def busca params
       where = {}
+      transliterado = TextSearch::to_regex(params[:nombre].strip)
       where[:camara] = params[:camara] if params[:camara]
       where[:partido] = params[:partido] if params[:partido]
-      where[:nombre] = TextSearch::to_regex(params[:nombre].strip)
+      
 
       if params[:set] == 'actores'
+        where['$or'] = [{nombre: transliterado}, {apellido: transliterado}]
         set = Actor
       elsif params[:set] == 'comisiones'
         set = Comision
+        where[:nombre] = transliterado
       end
 
       result = set.where(where)
