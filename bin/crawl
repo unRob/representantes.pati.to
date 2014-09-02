@@ -33,6 +33,9 @@ Cámaras:
   - #{$camaras.join("\n  - ")}
 Acciones:
   #{$actions.join(", ")}
+
+Si no sabes que estás haciendo, mejor leer el wiki:
+https://github.com/unRob/representantes.pati.to/wiki
 EOF
   exit 1
 end
