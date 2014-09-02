@@ -13,7 +13,6 @@ $ ()->
 	initialURL = location.href
 
 	window.onpopstate = (evt)->
-		console.log(initialURL is window.location.href)
 		return false unless window.location.href isnt initialURL
 		window.location.href = window.location.href
 

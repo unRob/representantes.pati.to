@@ -1,5 +1,5 @@
 module MustacheTpl
-	
+
   @@templates = {}
 
   def self.mustache_contents(file)
@@ -10,8 +10,8 @@ module MustacheTpl
     @@templates[file]
   end
 
-	def self.render template, data
+  def self.render template, data
     Mustache.render self.mustache_contents(template), data
   end
-	
+
 end
