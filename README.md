@@ -23,3 +23,6 @@ Acciones:
 ```
 
 La explicación larga está en el [wiki](../../wiki/Como-contribuir), y para echar a andar tu entorno de desarrollo, puedes leer [los primeros pasos](../../wiki/First-RUN,-Forrest!-RUN!)
+
+## Licencia
+Licenciado bajo la flamantemente nueva (as of 2014-09) [Licencia Patito](LICENSE)
