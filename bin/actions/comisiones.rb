@@ -6,6 +6,7 @@ camara = "Parser::#{$camara.to_constant}".constantize
 save = true
 if ARGV[1] == 'test'
   save = false
+  Log.debug "Modo de pruebas"
 end
 
 parser = camara::Comision.new

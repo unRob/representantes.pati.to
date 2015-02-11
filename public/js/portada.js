@@ -935,7 +935,7 @@ Geo.error = function(data) {
 
 Geo.aquired = function(pos) {
   var coords, lat, long, ngl;
-  ngl = pos.hasOwnProperty('coords');
+  ngl = pos.hasOwnProperty('coords') || pos.coords;
   lat = ngl && pos.coords.latitude || pos.lat();
   long = ngl && pos.coords.longitude || pos.lng();
   coords = {

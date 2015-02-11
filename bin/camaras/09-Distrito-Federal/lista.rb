@@ -5,7 +5,6 @@ module Parser
 
     class Lista
 
-
       def initialize
         @ids = []
         request(DistritoFederal.endpoints[:lista]) do |data|

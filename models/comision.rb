@@ -14,7 +14,7 @@ class Comision
   embeds_many :telefonos
   has_and_belongs_to_many :integrantes, class_name: 'Actor'
 
-  index({"meta.fkn" => 1}, {unique: true, name: 'fkn_index'})
+  index({"meta.fkey" => 1}, {unique: true, name: 'fkey_index'})
   index({"integrante_ids" => 1})
   index({camara: 1})
 
@@ -68,7 +68,7 @@ class Comision
     attrs['congreso'] = congreso
     attrs['actores'] = integrantes_json
     attrs['meta']['lastCrawl'] = l(meta.lastCrawl, '%d de %B, %y %H:%M:%S')
-    
+
     attrs.delete 'integrante_ids'
 
     attrs

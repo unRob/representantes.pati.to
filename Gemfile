@@ -27,4 +27,5 @@ group :development, :test do
   gem 'roo'
   gem 'spreadsheet'
   gem 'colored'
+  gem 'pdf-reader'
 end

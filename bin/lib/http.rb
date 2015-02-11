@@ -45,7 +45,7 @@ class Crawler
         'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/537.75.14',
         'X-User-Agent' => 'Crawler/1.0 http..//representantes.pati.to'
       }
-      
+
       request[:tries] = 1
       #Typhoeus::Config.verbose = true
       req = Typhoeus::Request.new(url, timeout: 60, headers: h)
