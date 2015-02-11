@@ -43,7 +43,7 @@ class Crawler
       h = {
         'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/537.75.14',
-        'X-User-Agent' => 'Crawler/1.0 http..//representantes.pati.to'
+        'X-User-Agent' => 'Crawler/1.0 http://representantes.pati.to'
       }
 
       request[:tries] = 1
