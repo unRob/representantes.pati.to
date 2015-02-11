@@ -1,6 +1,7 @@
 # Aguascalientes
-No hay datos más que nombres y una dirección de correo. Neta.
+~~No hay datos más que nombres y una dirección de correo. Neta.~~ Este congreso ya salió, con todo y distritos desde 2015-02-11, usando el método <abbr title="A Puro Putazo">APP</abbr>. Las secciones 98, 166, 319, y 487 no vienen en el MGN.
 - Lista: http://www.congresoags.gob.mx/congresoags/diputados.php
+- Distritos (ish) http://www.ieeags.org.mx/detalles/archivos/cartografia/cartografia_2012.pdf
 
 # Baja California
 - Lista: http://www.congresobc.gob.mx/diputados.html
