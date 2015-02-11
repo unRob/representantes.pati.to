@@ -16,13 +16,12 @@ module Parser
 
       def initialize
         @ids = []
-        actores = ::Actor.where({camara: 'diputados'})#, votaciones: nil})
+        actores = ::Actor.where({camara: 'diputados', :"votaciones.periodos".exists => false})#, votaciones: nil})
         actores.each do |actor|
           fid = actor.meta.fkey.gsub(/\D/, '')
           #next unless fid == '139'
           @ids << {id: fid, actor: actor}
         end
-
       end
 
       def lista
