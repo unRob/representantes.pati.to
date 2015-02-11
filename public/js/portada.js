@@ -2014,9 +2014,9 @@ $(function() {
     }
     return Representantes.deUbicacion(coords, function(representantes, seccion) {
       if (representantes === 'error') {
-        ls.mapa.instrucciones.text(seccion.razon).fadeIn();
+        els.mapa.instrucciones.text(seccion.razon).fadeIn();
         setTimeout(function() {
-          return ls.mapa.instrucciones.fadeOut(500);
+          return els.mapa.instrucciones.fadeOut(500);
         }, 3000);
         return false;
       }

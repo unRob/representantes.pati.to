@@ -23,14 +23,14 @@ $ ()->
 			canvas: $('#mapa-canvas')
 			loading: $('#mapa-loading')
 		aquiVivo: $('#aqui-vivo')
-		localizame: 
+		localizame:
 			container: $('#localizame')
 			icono: $('#localizame .icono')
 		cover: $('#cover')
 		representantes: $("#representantes")
 
 	Templates.setup($('.render-template'))
-	opts = 
+	opts =
 		latitude: 19.432479,
 		longitude: -99.133192
 
@@ -62,12 +62,12 @@ $ ()->
 			coords =
 				latitude: c.lat(),
 				longitude: c.lng()
-		
+
 		Representantes.deUbicacion coords, (representantes, seccion)->
 			if (representantes is 'error')
-				ls.mapa.instrucciones.text(seccion.razon).fadeIn();
+				els.mapa.instrucciones.text(seccion.razon).fadeIn();
 				setTimeout ()->
-					ls.mapa.instrucciones.fadeOut(500);
+					els.mapa.instrucciones.fadeOut(500);
 				, 3000
 				return false
 			History.pushState.apply(null, Representantes.state())
