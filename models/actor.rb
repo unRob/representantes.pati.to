@@ -84,14 +84,12 @@ class Actor
       str = "Distrito #{distrito.split('-').last}"
       str += ", #{poblacion}"
       return str
-    end 
+    end
     return poblacion || eleccion
   end
 
   def as_json(options={})
     attrs = super(options)
-    puts attrs
-    
     attrs["id"] = attrs["_id"].to_s
     attrs['imagen'] = attrs['imagen'].to_s if attrs['imagen']
     attrs['congreso'] = congreso
@@ -109,10 +107,11 @@ class Actor
         }
       }
     end
+    attrs['links'] = attrs['links'] || []
     attrs['meta']['lastCrawl'] = l(meta.lastCrawl, '%d de %B, %y %H:%M:%S')
     attrs
   end
-	
+
 end
 
 

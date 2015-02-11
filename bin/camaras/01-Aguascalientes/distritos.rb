@@ -35,7 +35,7 @@ reader.pages.each do |page|
       dto = match[1]
       dto = match[0] if match[1] == ""
       dto = dto.to_arabigo
-      seccion = match[2].to_i
+      seccion = "1-#{match[2]}"
     rescue
       Log.error "#{match}"
       next

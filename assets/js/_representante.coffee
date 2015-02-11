@@ -16,9 +16,10 @@ Representante = (data)->
 	@orig = $.extend({}, data)
 	links = []
 	postal = null
+
 	for link in @data.links
 		if link.servicio is 'postal'
-			postal = link 
+			postal = link
 		else
 			link.clase = 'social-icon'
 			link.icono = link.servicio
@@ -30,7 +31,7 @@ Representante = (data)->
 	@data.links = links;
 
 	@data.desempeno = (@data.inasistencias || @data.votaciones)
-	
+
 	if (@data.inasistencias && !@data.inasistencias.pc)
 		pc = porcentaje(@data.inasistencias.total, @data.inasistencias.sesiones)
 		@data.inasistencias.pc =
@@ -41,7 +42,7 @@ Representante = (data)->
 		for k,v of @data.inasistencias.periodos
 			periodosAsistencias.push {fecha: k, valor: v}
 		@data.inasistencias.periodos = periodosAsistencias
-			
+
 	if (@data.votaciones && !@data.votaciones.pc)
 		pc = porcentaje(@data.votaciones.ausente, @data.votaciones.total)
 		@data.votaciones.pc =
@@ -107,5 +108,5 @@ Representante::state = ()->
 Representante::toString = ()->
 	Templates['representante'](@data)
 
-Representante::detalles = ()->	
+Representante::detalles = ()->
 	Templates.detalles(@data)
