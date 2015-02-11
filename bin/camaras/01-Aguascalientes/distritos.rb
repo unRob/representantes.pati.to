@@ -24,7 +24,7 @@ end
 reader = PDF::Reader.new(tmp)
 
 distritos = {}
-expDis = /^\s+(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})\s+(\d{3})/
+expDis = /^\s+(I?X?[IV]*)\s+(\d{3})/
 
 # reader.pages.first.text.scan(expDis).each do |match|
 
@@ -32,10 +32,10 @@ expDis = /^\s+(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})\s+(\d{3})/
 reader.pages.each do |page|
   page.text.scan(expDis).each do |match|
     begin
-      dto = match[1]
-      dto = match[0] if match[1] == ""
+      dto = match[0]
+      # puts dto
       dto = dto.to_arabigo
-      seccion = "1-#{match[2]}"
+      seccion = "1-#{match[1]}"
     rescue
       Log.error "#{match}"
       next
@@ -47,6 +47,7 @@ end
 
 count = 0
 distritos.each do |k,v|
+  # puts k
   Distrito.create!({
     _id: "dl-1-#{k}",
     tipo: :local,
