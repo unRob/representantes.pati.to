@@ -35,7 +35,8 @@ Geo.error = (data)->
 	Geo.trigger 'error'
 
 Geo.aquired = (pos)->
-	ngl = pos.hasOwnProperty('coords')
+	# pos.coords porque safari > 7.6 ya lo abstrae al prototipo :/
+	ngl = pos.hasOwnProperty('coords') || pos.coords
 	lat = ngl && pos.coords.latitude || pos.lat()
 	long= ngl && pos.coords.longitude || pos.lng()
 	
