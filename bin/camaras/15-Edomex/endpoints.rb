@@ -12,10 +12,11 @@ module Parser
     end
 
     @@endpoints = {
+      actor: 'http://www.cddiputados.gob.mx/2/58/diputados/{{stub}}.html',
+      base: 'http://www.cddiputados.gob.mx/2/58/',
       distritos: 'http://www.ieem.org.mx/numeralia/msd/msd{{id}}.html',
-      base: '',
+      lista: 'http://www.cddiputados.gob.mx/2/58/diputados/indice_alfa2.html',
       lista_comisiones: '',
-      actor: '',
     }
 
   end
