@@ -24,7 +24,7 @@ end
 reader = PDF::Reader.new(tmp)
 
 distritos = {}
-expDis = /^\s+(I?X?[IV]*)\s+(\d{3})/
+expDis = /^\s+(I?X?[IV]*)\s+(\d{1,3})/
 
 # reader.pages.first.text.scan(expDis).each do |match|
 
