@@ -30,12 +30,17 @@ crawler.run do |img, req|
       meta[:metadata][:etag] = img.headers['ETag'] if img.headers['ETag']
       meta[:metadata][:last_modified] = img.headers['Last-Modified'] if img.headers['Last-Modified']
       saved = $grid.put(data, meta)
-      
+
       req[:actor].imagen = saved.id
       req[:actor].save!
 
     rescue Moped::Errors::OperationFailure => e
       Log.warn "Imagen repetida... #{req[:url]}, #{req[:actor].id}"
+      md5 = e.details[:err].scan(/[a-f0-9]{32}/)[0]
+      req[:actor].imagen = $grid.where({md5: md5}).first.id
+      req[:actor].save
+      # req[:actor].imagen =
+      # actor[:saved]
     rescue Exception => e
       Log.error "Otro Error"
       Log.error e.inspect
