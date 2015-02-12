@@ -16,7 +16,6 @@ if ARGV[1] == 'test'
 else
   TEST = false
 end
-
 Log.info "Buscando actores... "
 lista = camara::Lista.new
 Log.info "#{lista.count} Actores encontrados"
@@ -43,8 +42,7 @@ def ingesta data
   rescue Exception => e
     puts data[:nombre]
     puts data[:meta][:fkey]
-    puts e
-    exit
+    raise e
   end
 end
 
@@ -62,7 +60,10 @@ actores.run do |response, request|
       ingesta parser.parse(response.body, request)
       count += 1
     end
-
+  rescue SystemExit => e
+    puts e.backtrace
+    Log.debug "Called exit @ #{e.backtrace[0].split(":").first}"
+    exit
   rescue Exception => e
     Log.error request[:url]
     e.backtrace.reverse.each do |line|
