@@ -25,7 +25,7 @@ class Actor
 
   embeds_many :revisiones, class_name: "Revision"
   field :imagen
-  field :puestos, type: Array
+  # field :puestos, type: Array
   field :suplente, type: String
   field :eleccion, type: String #mayoría relativa, primera minoría, representación proporcional
 

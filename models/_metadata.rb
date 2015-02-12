@@ -1,5 +1,6 @@
 class Meta
   include Mongoid::Document
+  include Mongoid::Attributes::Dynamic
 
   field :_id, type: NilClass, default: nil, overwrite: true
   field :fkey, type: String
