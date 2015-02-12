@@ -15,6 +15,7 @@ Log.info "Buscando comisiones... "
 comisiones = Crawler.new camara.endpoints[:lista_comisiones]
 comisiones.requests = parser.requests
 
+puts parser.requests
 
 $count = 0
 
@@ -24,7 +25,7 @@ comisiones.run do |response, request|
     parser.parse(response.body, request) do |comision|
       begin
         Comision.create!(comision) if save
-        Log.debug(comision[:nombre]) unless save
+        Log.debug("#{comision[:nombre]} - #{comision[:meta][:fkey]}") unless save
       rescue Exception => e
         puts comision[:nombre]
         puts comision[:meta][:fkey]

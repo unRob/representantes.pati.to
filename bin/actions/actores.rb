@@ -61,15 +61,15 @@ actores.run do |response, request|
       count += 1
     end
   rescue SystemExit => e
-    puts e.backtrace
+    # puts e.backtrace
     Log.debug "Called exit @ #{e.backtrace[0].split(":").first}"
     exit
   rescue Exception => e
-    Log.error request[:url]
     e.backtrace.reverse.each do |line|
       Log.error line
     end
     Log.error e.message
+    Log.info request[:url]
     exit
   end
 

@@ -4,11 +4,6 @@ module Parser
 
     class Actor
 
-      def initialize
-
-      end
-
-
       def traduce row
         encabezado = row.at_css('.Encabezado')
 
@@ -41,27 +36,6 @@ module Parser
             end
           else :npi
         end
-      end
-
-      def formatoTelefono digitos
-        return case digitos.length
-          when 12
-             # 01 55 5555 5555
-            if digitos.match(/^01(55|33|81)/)
-              digitos.scan(/^(\d{2})(\d{2})(\d{4})(\d{4})$/)
-            else
-              # 01 777 777 7777
-              digitos.scan(/^(\d{2})(\d{3})(\d{3})(\d{4})$/)
-            end
-          # 777 777 7777
-          when 10 then digitos.scan(/^(\d{3})(\d{4}){2}$/)
-          # 5555 5555
-          when 8 then digitos.scan(/^(\d{4})(\d{4})$/)
-          # 777 7777
-          when 7 then digitos.scan(/^(\d{3})(\d{4})$/)
-          else
-            raise digitos
-        end.flatten.join(' ')
       end
 
       def distrito row
@@ -268,6 +242,7 @@ module Parser
           end
 
           puesto = row.at_css('.Encabezado').text.downcase
+          puesto = 'integrante' if puesto == 'miembro'
           puesto = 'secretario' if puesto == 'prosecretario'
           actor[:puestos] << {
             puesto: puesto,
