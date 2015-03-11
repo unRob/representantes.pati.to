@@ -1,12 +1,13 @@
 source 'https://rubygems.org'
-#gem 'rack', '~>1.3.5'
+
+# group
 gem 'rack'
 gem 'mustache', :require => 'mustache'
 gem 'sinatra'
 # http://www.sinatrarb.com/contrib
 gem 'sinatra-contrib'
 # internationalization
-gem 'r18n-core'
+gem 'i18n'
 gem 'sinatra-r18n', :require => 'sinatra/r18n'
 gem 'activesupport', :require => 'active_support/all'
 gem 'mongo'

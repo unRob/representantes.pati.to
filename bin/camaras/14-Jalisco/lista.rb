@@ -7,9 +7,8 @@ module Parser
 
       def initialize
         @ids = []
-        test_localizado = true
-        test_localizado = false
-        if TEST && test_localizado
+        # test_localizado = true
+        if TEST && defined? test_localizado
           @ids = [
             {id: '179'}, #cel
             {id: '164'}, #doble dirección

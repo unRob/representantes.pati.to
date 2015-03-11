@@ -40,8 +40,8 @@ def ingesta data
     end
 
   rescue Exception => e
-    puts data[:nombre]
-    puts data[:meta][:fkey]
+    puts data[:nombre] if data[:nombre]
+    puts data[:meta][:fkey] if data[:meta]
     raise e
   end
 end

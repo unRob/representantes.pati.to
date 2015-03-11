@@ -4,9 +4,13 @@ require_relative "../camaras/#{$camara}/comisiones.rb"
 camara = "Parser::#{$camara.to_constant}".constantize
 
 save = true
+
 if ARGV[1] == 'test'
   save = false
+  TEST=true
   Log.debug "Modo de pruebas"
+else
+  TEST=false
 end
 
 parser = camara::Comision.new
@@ -14,8 +18,6 @@ Log.info "Buscando comisiones... "
 
 comisiones = Crawler.new camara.endpoints[:lista_comisiones]
 comisiones.requests = parser.requests
-
-puts parser.requests
 
 $count = 0
 
@@ -35,9 +37,9 @@ comisiones.run do |response, request|
       $count += 1
     end
   rescue Exception => e
-    Log.error request[:url]
+    Log.error e.backtrace.reverse.join("\n")
     Log.error e.message
-    Log.error e.backtrace
+    Log.error request[:url]
     exit
   end
 

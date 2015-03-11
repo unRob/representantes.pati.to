@@ -43,8 +43,8 @@ module Entidades
     self.entidades[indice-1]
   end
 
-  def self.entidad_de_nombre
-    self.entidades.index(indice+1)
+  def self.entidad_de_nombre indice
+    self.entidades.index(indice)+1
   end
 
 end

@@ -5,33 +5,40 @@ class Actor
 
   embeds_one :meta, class_name: 'Meta'
   field :camara, type: String #local, federal, senado
+    validates :camara, inclusion: { in: ['local', 'federal', 'senado'] }
   field :nombre, type: String
   field :apellido, type: String
+  field :_transliterado, type: String #el nombre y apellido transliterado para búsquedas
   field :distrito, type: String
+    validate :distrito_correcto
   field :entidad, type: Integer
-  #field :tipo_distrito, type: String #local, federal
+
+  def distrito_correcto
+    expr = /^d[lf]-[1-3]{,1}\d-(\d{1,2}|rp|c[1-5])$/
+    errors.add(:distrito, 'Formato incorrecto') unless !(distrito =~ expr).nil?
+  end
 
   field :genero, type: Integer
+    validates :genero, inclusion: { in: [0,1] }
   field :partido, type: String
 
   field :correo, type: String
-  embeds_many :telefonos
-  embeds_many :links
 
-  embeds_many :puestos #de comisiones
-
-  embeds_one :inasistencias, class_name: 'Inasistencias'
-  embeds_one :votaciones, class_name: 'Votaciones'
-
-  embeds_many :revisiones, class_name: "Revision"
   field :imagen
   # field :puestos, type: Array
   field :suplente, type: String
   field :eleccion, type: String #mayoría relativa, primera minoría, representación proporcional
+    validates :eleccion, inclusion: { in: ['mayoría relativa', 'primera minoría', 'representación proporcional'] }
 
   # Diputados
   field :curul, type: String
   field :cabecera, type: String
+  embeds_many :telefonos
+  embeds_many :links
+  embeds_many :puestos #de comisiones
+  embeds_one :inasistencias, class_name: 'Inasistencias'
+  embeds_one :votaciones, class_name: 'Votaciones'
+  embeds_many :revisiones, class_name: "Revision"
 
   # Indexes
   index({camara: 1})
@@ -40,6 +47,13 @@ class Actor
   index({nombre: 1})
   index({entidad: 1})
   index({distrito: 1})
+  index({_transliterado: 1})
+
+
+  before_save do |doc|
+    self._transliterado = I18n.transliterate(nombre).downcase
+  end
+
 
   def nombre
     if apellido
@@ -130,6 +144,7 @@ class Puesto
 
   field :_id, type: NilClass, default: nil, overwrite: true
   field :puesto, type: String
+  embedded_in :actor
   belongs_to :comision, class_name: 'Comision'
 
   def as_json(options={})
