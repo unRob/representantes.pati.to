@@ -9,7 +9,7 @@ module Parser
       ZOQUETES_QUE_NO_EXISTEN = [
         'jesus-guadalupe-hurtado-rodriguez', #suplente
         'juan-antonio-rodriguez-gonzalez', #suplente
-        'rocio-isabel-santos-chapoy', #suplente todavía no está en el sistema
+        'juana-mayela-gonzalez-lopez'
       ]
 
       # Como no hemos inventado bases de datos, estos zoquetes escribieron mal o incompleto
