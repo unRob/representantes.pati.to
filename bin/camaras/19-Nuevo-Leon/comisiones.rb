@@ -124,7 +124,7 @@ module Parser
             lastCrawl: Time.now,
             stub: I18n.transliterate(nombre).downcase.gsub(' ', '-')
           },
-          integrantes: integrantes.map {|integrante| integrante[:integrante] }
+          integrantes: integrantes.map {|integrante| integrante[:actor] }
         }
 
         yield comision

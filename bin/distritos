@@ -19,21 +19,21 @@ pms = kml.xpath('//Placemark')
 distritos = {}
 
 pms.each do |pm|
-  
+
   id        = pm.css('SimpleData[name=ID]').text.to_i
   entidad   = pm.css('SimpleData[name=ENTIDAD]').text.to_i
   distrito  = pm.css('SimpleData[name=DISTRITO]').text.to_i
   municipio = pm.css('SimpleData[name=MUNICIPIO]').text.to_i
   seccion   = pm.css('SimpleData[name=SECCION]').text.to_i
   tipo      = pm.css('SimpleData[name=TIPO]').text.to_i
-  
+
   coords = pm.at_css('coordinates').text.split(' ').map do |el|
     lon,lat,alt = el.split(',')
     [lon.to_f,lat.to_f]
   end
 
   ids = "#{entidad}-#{seccion}"
-  
+
   dtoFederal = "df-#{entidad}-#{distrito}"
   dtoSenado = "sf-#{entidad}"
 
@@ -50,7 +50,7 @@ pms.each do |pm|
     entidad: entidad,
     secciones: []
   }
-  
+
   distritos[dtoFederal][:secciones] << ids
   distritos[dtoSenado][:secciones] << ids
 
@@ -66,7 +66,7 @@ pms.each do |pm|
   #
   #puts "#{ids} e:#{entidad}"
   Seccion.create(seccion)
-  
+
 end
 
 distritos.each do |id, distrito|
