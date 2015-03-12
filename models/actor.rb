@@ -1,9 +1,15 @@
 # encoding: utf-8
+
+ActiveSupport::Inflector.inflections do |inflect|
+  inflect.plural(/^(meta)$/i, 'meta')
+  inflect.singular(/^(meta)$/i, 'meta')
+end
+
 class Actor
 	include Mongoid::Document
   store_in collection: 'actores'
 
-  embeds_one :meta, class_name: 'Meta'
+  embeds_one :meta, as: :metadateable
   field :camara, type: String #local, federal, senado
     validates :camara, inclusion: { in: ['local', 'federal', 'senado'] }
   field :nombre, type: String
@@ -43,7 +49,7 @@ class Actor
   # Indexes
   index({camara: 1})
   index({partido: 1})
-  index({"meta.fkn" => 1}, {unique: true})
+  index({"meta.fkey" => 1}, {unique: true})
   index({nombre: 1})
   index({entidad: 1})
   index({distrito: 1})

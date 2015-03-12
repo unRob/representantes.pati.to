@@ -20,7 +20,6 @@ module Parser
           distrito: nil,
           telefonos: [],
           links: [],
-          puestos: []
         }
 
         dom = Nokogiri::HTML(body)

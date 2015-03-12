@@ -3,7 +3,7 @@ class Comision
 	include Mongoid::Document
   store_in collection: 'comisiones'
 
-  embeds_one :meta, class_name: 'Meta'
+  embeds_one :meta, as: :metadateable
   field :camara, type: String
   field :nombre, type: String
   field :oficina, type: String

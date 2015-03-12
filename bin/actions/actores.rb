@@ -29,7 +29,13 @@ actores.requests = lista.to_a
 def ingesta data
   begin
     unless TEST
-      actor = Actor.create!(data)
+      fkey = data[:meta][:fkey]
+      puts fkey
+      actor = Actor.find_or_create_by("meta.fkey" => fkey)
+      Log.info "#{actor.meta.lastCrawl}::#{data[:meta][:lastCrawl]}"
+      data[:meta].delete :fkey
+      actor.update_attributes! data
+
       actor.puestos.each do |puesto|
         puesto.comision.integrantes << actor
         puesto.comision.save!
@@ -42,6 +48,7 @@ def ingesta data
   rescue Exception => e
     puts data[:nombre] if data[:nombre]
     puts data[:meta][:fkey] if data[:meta]
+    puts data
     raise e
   end
 end

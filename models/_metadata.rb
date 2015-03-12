@@ -7,4 +7,6 @@ class Meta
   field :lastCrawl, type: Time
   field :creado, type: Time, default: ->{ Time.now }
 
+  embedded_in :metadateble, polymorphic: true
+
 end
