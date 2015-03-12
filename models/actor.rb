@@ -10,6 +10,8 @@ class Actor
   store_in collection: 'actores'
 
   embeds_one :meta, as: :metadateable
+  accepts_nested_attributes_for :meta
+
   field :camara, type: String #local, federal, senado
     validates :camara, inclusion: { in: ['local', 'federal', 'senado'] }
   field :nombre, type: String

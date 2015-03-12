@@ -30,12 +30,16 @@ def ingesta data
   begin
     unless TEST
       fkey = data[:meta][:fkey]
-      puts fkey
-      actor = Actor.find_or_create_by("meta.fkey" => fkey)
-      Log.info "#{actor.meta.lastCrawl}::#{data[:meta][:lastCrawl]}"
-      data[:meta].delete :fkey
-      actor.update_attributes! data
-
+      # sigh, mongoid
+      # déjame hacer upserts, chingaderas!
+      actor = Actor.where("meta.fkey" => fkey).first
+      if actor
+        Log.info "Update #{fkey}"
+        actor.update_attributes! data
+      else
+        Log.info "Create #{fkey}"
+        actor = Actor.create data
+      end
       actor.puestos.each do |puesto|
         puesto.comision.integrantes << actor
         puesto.comision.save!
