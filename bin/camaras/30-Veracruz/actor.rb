@@ -115,7 +115,7 @@ module Parser
 
           data = Hash[*data]
 
-          actor[:correo] = data[:correo] if data[:correo]
+          actor[:correo] = data['correo'] if data['correo']
           if data['telefono']
             actor[:telefonos] ||= []
             actor[:telefonos] << {
