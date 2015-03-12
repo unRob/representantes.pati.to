@@ -13,6 +13,10 @@ class String
     self
   end
 
+  def stub
+    I18n.transliterate(self).downcase.squish.gsub(/[^a-z\s]/, '').gsub(' ', '-')
+  end
+
 end
 
 def formatoTelefono digitos, sinLD = false

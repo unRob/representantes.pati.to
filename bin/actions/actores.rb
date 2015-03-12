@@ -40,9 +40,10 @@ def ingesta data
         Log.info "Create #{fkey}"
         actor = Actor.create data
       end
+
       actor.puestos.each do |puesto|
         puesto.comision.integrantes << actor
-        puesto.comision.save!
+        puesto.comision.save
       end
     else
       actor = Actor.new data
@@ -52,7 +53,7 @@ def ingesta data
   rescue Exception => e
     puts data[:nombre] if data[:nombre]
     puts data[:meta][:fkey] if data[:meta]
-    puts data
+    pp data
     raise e
   end
 end
