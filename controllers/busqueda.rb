@@ -9,7 +9,7 @@ class RepresentantesApp < Sinatra::Base
       transliterado = TextSearch::to_regex(params[:nombre].strip)
       where[:camara] = params[:camara] if params[:camara]
       where[:partido] = params[:partido] if params[:partido]
-      
+
 
       if params[:set] == 'actores'
         where['$or'] = [{nombre: transliterado}, {apellido: transliterado}]
@@ -33,7 +33,7 @@ class RepresentantesApp < Sinatra::Base
       }
     end
 
-  	get do
+  	get '/' do
       data = {}
       if params[:nombre]
         data = busca(params)
@@ -46,10 +46,55 @@ class RepresentantesApp < Sinatra::Base
       end
   	end
 
-    post do
+    post '/' do
       json busca(params)
     end
 
+
+    before do
+      if request.request_method == 'OPTIONS'
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Methods"] = "GET"
+
+        halt 200
+      end
+    end
+
+
+    get '/de-distrito/:camara/:lat/:lng' do |camara, lat, lng|
+      headers 'Access-Control-Allow-Origin' => '*'
+      coords = [lng, lat].map(&:to_f)
+
+
+      seccion = Seccion.paraCoordenadas(coords)
+      if !seccion
+        status 404
+        return json({status: "error", razon: 'No tengo una sección electoral para este punto, ¿Estás en México?'})
+      end
+
+      tipo = {senado: 'sf-\d+', diputados: 'df-\d+', local: 'dl-\d+' }[camara] || 'df-\d+-\d+'
+      dto = Distrito.where({secciones: seccion.id, _id: /#{tipo}/}).only(:id).first
+
+      if !dto
+        status 404
+        return json({status: "error", razon: "No tengo distritos para esta sección"})
+      end
+
+      json(dto)
+    end
+
+
+    get '/de-distrito/:id' do |id|
+      headers 'Access-Control-Allow-Origin' => '*'
+      dto = Distrito.where({_id: id,}).first
+
+      if !dto
+        status 404
+        return json({status: "error", razon: "No tengo este distrito"})
+      end
+
+      json(dto)
+    end
 
   end #/namespace
 

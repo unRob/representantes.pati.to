@@ -24,7 +24,7 @@ class RepresentantesApp < Sinatra::Base
 
       distritos = Distrito.deSeccion(seccion)
 
-      if distritos.count == 0 
+      if distritos.count == 0
         status 404
         return {status: 'error', razon: 'No tengo distritos para esta sección'}
       end
@@ -36,7 +36,6 @@ class RepresentantesApp < Sinatra::Base
         seccion: seccion
       }
     end
-
 
 
     post '/por-ubicacion', &ubicacion
@@ -54,7 +53,7 @@ class RepresentantesApp < Sinatra::Base
 
     get '/imagen/*' do |representante|
       #img = Actor.imagen(representante)
-      
+
 
       if representante =~ %r{http}
         representante = representante.gsub(%r{http://*}, 'http://')
