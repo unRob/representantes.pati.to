@@ -61,6 +61,39 @@ class RepresentantesApp < Sinatra::Base
     end
 
 
+    get '/de-seccion/:lat/:lng' do |lat, lng|
+      seccion = Seccion.paraCoordenadas(coords)
+
+      if !seccion
+        status 404
+        return json({status: "error", razon: 'No tengo una sección electoral para este punto, ¿Estás en México?'})
+      end
+
+    end
+
+
+    get '/geo/:camara/:lat/:lng' do |camara, lat, lng|
+      headers 'Access-Control-Allow-Origin' => '*'
+      coords = [lng, lat].map(&:to_f)
+
+      seccion = Seccion.paraCoordenadas(coords)
+      if !seccion
+        status 404
+        return json({status: "error", razon: 'No tengo una sección electoral para este punto, ¿Estás en México?'})
+      end
+
+      tipo = {senado: 'sf-\d+', diputados: 'df-\d+', local: 'dl-\d+' }[camara] || 'df-\d+-\d+'
+      dto = Distrito.where({secciones: seccion.id, _id: /#{tipo}/}).only(:id).first
+
+      if !dto
+        status 404
+        return json({status: "error", razon: "No tengo distritos para esta sección"})
+      end
+
+      json({distrito: dto._id, seccion: {id: seccion._id, coords: seccion.coords}})
+    end
+
+
     get '/de-distrito/:camara/:lat/:lng' do |camara, lat, lng|
       headers 'Access-Control-Allow-Origin' => '*'
       coords = [lng, lat].map(&:to_f)
