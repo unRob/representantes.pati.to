@@ -1,3 +1,6 @@
 .nginx
 .bundle
 vendor/bundle
+tmp/secretario/*
+!tmp/secretario/.keepbin_old
+bin_old/*
