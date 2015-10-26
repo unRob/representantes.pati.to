@@ -37,7 +37,7 @@ module Secretario
     end
 
 
-    desc "local (entidad)", "Descarga e ingesta los distritos locales de una entidad"
+    desc "local [ENTIDAD]", "Descarga e ingesta los distritos locales de una entidad"
     long_desc <<-DESC
       Descarga e ingesta los distritos locales de la entidad
       especificada como un numero, o `todas` las disponibles.

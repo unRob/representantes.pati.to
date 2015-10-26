@@ -7,6 +7,8 @@ end
 
 class Actor
 	include Mongoid::Document
+  include Sluggable
+
   store_in collection: 'actores'
 
   embeds_one :meta, as: :metadateable
@@ -15,16 +17,17 @@ class Actor
   field :camara, type: String #local, federal, senado
     validates :camara, inclusion: { in: ['local', 'federal', 'senado'] }
   field :nombre, type: String
+  set_slug :nombre
+
   field :apellido, type: String
   field :_transliterado, type: String #el nombre y apellido transliterado para búsquedas
   field :distrito, type: String
-    validate :distrito_correcto
+    validate :distrito, :distrito_correcto
   field :entidad, type: Integer
 
-  def distrito_correcto
-    expr = /^d[lf]-[1-3]{,1}\d-(\d{1,2}|rp|c[1-5])$/
-    errors.add(:distrito, 'Formato incorrecto') unless !(distrito =~ expr).nil?
-  end
+  field :activo, type: Boolean, default: true
+  belongs_to :legislatura
+
 
   field :genero, type: Integer
     validates :genero, inclusion: { in: [0,1] }
@@ -41,9 +44,11 @@ class Actor
   # Diputados
   field :curul, type: String
   field :cabecera, type: String
+
   embeds_many :telefonos
   embeds_many :links
   embeds_many :puestos #de comisiones
+
   embeds_one :inasistencias, class_name: 'Inasistencias'
   embeds_one :votaciones, class_name: 'Votaciones'
   embeds_many :revisiones, class_name: "Revision"
@@ -51,16 +56,35 @@ class Actor
   # Indexes
   index({camara: 1})
   index({partido: 1})
+  index({activo: 1})
   index({"meta.fkey" => 1}, {unique: true})
   index({nombre: 1})
   index({entidad: 1})
   index({distrito: 1})
   index({_transliterado: 1})
 
+  default_scope ->{ where(activo: true) }
+  scope :deDistritos, ->(distritos) {
+    dtos = distritos.map {|dto| dto.id}
+    puts dtos
+    any_in("distrito" => dtos).desc(:distrito).desc(:eleccion)
+  }
 
+
+
+  #--------------
+  # Validaciones
+  #--------------
   before_save do |doc|
     self._transliterado = I18n.transliterate(nombre).downcase
   end
+
+  def distrito_correcto
+    expr = /^d[lf]-[1-3]{,1}\d-(\d{1,2}|rp|c[1-5])$/
+    errors.add(:distrito, 'Formato incorrecto') unless !(distrito =~ expr).nil?
+  end
+
+
 
 
   def nombre
@@ -71,15 +95,6 @@ class Actor
     end
   end
 
-  def self.deDistritos(distritos)
-    dtos = distritos.map {|dto| dto.id}
-    puts dtos
-    any_in("distrito" => dtos).desc(:distrito).desc(:eleccion)
-  end
-
-  def stub
-    I18n.transliterate(nombre).downcase.gsub(/[^a-z\s]/, '').gsub(' ', '-')
-  end
 
   def congreso
     vocal = 'o'
@@ -133,69 +148,5 @@ class Actor
     attrs['meta']['lastCrawl'] = l(meta.lastCrawl, '%d de %B, %y %H:%M:%S')
     attrs
   end
-
-end
-
-
-class Revision
-  include Mongoid::Document
-
-  embedded_in :actor
-  field :creada, type: Time, default: -> {Time.now}
-  field :aceptado, type: Boolean, default: false
-  field :changeSet, type: Hash
-
-end
-
-class Puesto
-  include Mongoid::Document
-
-  field :_id, type: NilClass, default: nil, overwrite: true
-  field :puesto, type: String
-  embedded_in :actor
-  belongs_to :comision, class_name: 'Comision'
-
-  def as_json(options={})
-    attrs = super(options)
-    attrs['comision'] = attrs['comision'].to_s
-    attrs.delete 'comision_id'
-    attrs
-  end
-
-end
-
-class Link
-  include Mongoid::Document
-
-  embedded_in :actor
-  field :_id, type: NilClass, default: nil, overwrite: true
-
-  field :servicio, type: String
-  field :url, type: String
-
-end
-
-class Inasistencias
-  include Mongoid::Document
-
-  embedded_in :actor
-  field :_id, type: NilClass, default: nil, overwrite: true
-  field :total, type: Integer
-  field :sesiones, type: Integer
-  field :periodos, type: Hash
-
-end
-
-class Votaciones
-  include Mongoid::Document
-
-  embedded_in :actor
-  field :_id, type: NilClass, default: nil, overwrite: true
-  field :total, type: Integer
-  field :a_favor, type: Integer
-  field :en_contra, type: Integer
-  field :abstencion, type: Integer
-  field :ausente, type: Integer
-  field :periodos, type: Hash
 
 end

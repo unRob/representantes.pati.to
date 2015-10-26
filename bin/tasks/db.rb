@@ -7,7 +7,19 @@ module Secretario
 
     desc "index", "Inicializa la base de datos"
     def index
-      puts "TODO"
+      Db.load!
+    end
+
+
+    def self.load!
+      Bundler.require :datasource
+      settings = YAML.load File.read(Secretario.full_path :app, %w{config database.yml})
+
+      Mongoid.configure do |config|
+        config.sessions = settings[ENV['RACK_ENV'].to_sym][:mongodb][:sessions]
+      end
+
+      Secretario.require_dir Secretario.full_path(:app, 'models')
     end
 
   end

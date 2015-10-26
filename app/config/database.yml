@@ -2,7 +2,7 @@
   :mongodb:
     :sessions:
       :default:
-        :hosts: 
+        :hosts:
           - localhost:27017
         :database: representantes2
 
@@ -10,6 +10,6 @@
   :mongodb:
     :sessions:
       :default:
-        :hosts: 
+        :hosts:
           - localhost:27017
         :database: representantes2
