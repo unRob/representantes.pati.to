@@ -54,13 +54,13 @@ class Actor
   embeds_many :revisiones, class_name: "Revision"
 
   # Indexes
-  index({camara: 1})
-  index({partido: 1})
   index({activo: 1})
+  index({camara: 1})
+  index({distrito: 1})
+  index({entidad: 1})
   index({"meta.fkey" => 1}, {unique: true})
   index({nombre: 1})
-  index({entidad: 1})
-  index({distrito: 1})
+  index({partido: 1})
   index({_transliterado: 1})
 
   default_scope ->{ where(activo: true) }

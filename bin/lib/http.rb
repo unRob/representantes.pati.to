@@ -14,7 +14,7 @@ module Secretario
       case expecting
         when :json then JSON.parse(data.body, symbolize_names: true)
         when :dom
-          doc = Nokogiri::HTML(html)
+          doc = Nokogiri::HTML(data.body)
           doc.encoding = 'utf-8'
           doc
         when :bytes then data.body

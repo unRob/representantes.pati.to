@@ -6,8 +6,13 @@ module Secretario
     end
 
     desc "index", "Inicializa la base de datos"
-    def index
+    def setup
       Db.load!
+      Actor.create_indexes
+      Comision.create_indexes
+      Distrito.create_indexes
+      Seccion.create_indexes
+      Legislatura.create_indexes
     end
 
 

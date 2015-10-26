@@ -12,4 +12,4 @@
       :default:
         :hosts:
           - localhost:27017
-        :database: representantes2
+        :database: representantes
