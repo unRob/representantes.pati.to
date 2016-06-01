@@ -4,6 +4,7 @@
 #= require _filtros
 #= require _mustache
 #= require _map
+#= require _geolocation
 #= require _geo
 #= require _templates
 #= require _representante
@@ -125,7 +126,23 @@ $ ()->
 	els.localizame.container.on 'click', (evt)->
 		evt.preventDefault();
 		els.mapa.instrucciones.fadeOut();
-		Geo.setup();
+		Geo = new Geolocation
+			success:(coord)->
+				newPosition(coord)
+				@
+			notFunction:->
+				alert "No tienes GPS!"
+				@
+			unknown:(error)->
+				alert "Se rompió, Dios sabrá cómo"
+				@
+			forbidden:(error)->
+				alert "Ni modo, no se pudo"
+				@
+			timeOut:(error)->
+				alert "Te tardaste, chav@"
+				@
+		Geo.getCurrentPosition()
 
 
 	NotificationCenter.on 'filtros', (data)->
