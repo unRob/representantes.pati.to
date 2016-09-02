@@ -1,7 +1,9 @@
 module Secretario
   class Geografia < Thor
 
-    SOURCE = "https://raw.githubusercontent.com/unRob/distritos-electorales-mx/master/data/"
+    # De dónde sacamos la información?
+    # SOURCE=otro/repo/de/github secretario geografia ...
+    SOURCE = ENV['SOURCE'] || "https://raw.githubusercontent.com/unRob/distritos-electorales-mx/master/data/"
 
     def self.description
       "Genera, descarga e ingesta distritos y secciones electorales"
@@ -9,6 +11,12 @@ module Secretario
 
 
     desc "federal", "Descarga e ingesta los distritos electorales federales"
+    long_desc <<-DESC
+      Descarga e ingesta los distritos federales y las circunscripciones
+
+      ejemplo:
+        secretario geografia federal
+    DESC
     def federal
       bundle!
       data = fetch('distritos/federales/_todos.json')
@@ -41,17 +49,30 @@ module Secretario
     long_desc <<-DESC
       Descarga e ingesta los distritos locales de la entidad
       especificada como un numero, o `todas` las disponibles.
+
+      ejemplo:
+        secretario geografia local 09-distrito-federal
+        secretario geografia local 9
+        secretario geografia local todas
     DESC
     def local entidad=nil
       if entidad == 'todas'
-        raise "WIP :/"
+        (1..Entidad.todas.count).each { |id|
+          seccion index
+        }
       else
-        seccion entidad.to_i
+        seccion entidad
       end
     end
 
 
     desc "secciones", "Descarga e ingesta las secciones electorales"
+    long_desc <<-DESC
+      Descarga e ingesta las secciones electorales que agrupan los distritos
+
+      ejemplo:
+        secretario geografia secciones
+    DESC
     def secciones
       bundle!
       entidades = Entidad.todas.each_with_index.map {|e, index|
@@ -68,6 +89,12 @@ module Secretario
 
     desc "disponible", "Lista las geografías electorales disponibles"
     option 'no-cache', type: :boolean, aliases: :C, banner: "Deshabilita el cache"
+    long_desc <<-DESC
+      Lista las geografías electorales disponibles
+
+      ejemplo:
+        secretario geografia disponible
+    DESC
     def disponible
       cache = Secretario.full_path(:tmp, "geografias.json")
       if options[:"no-cache"] || !File.exists?(cache)
@@ -116,12 +143,17 @@ BANNER
       def seccion entidad
         bundle!
 
-        if entidad.is_a? Number
-          nombre = Entidad[entidad]
-          url = entidad.to_s.rjust(2,0)+"-"+I18n.transliterate(nombre)
-        else
-          id, nombre = entidad.split("-")
-          url = entidad
+        case entidad.to_s
+          when /^\d+$/
+            # 09, 9 < numero
+            nombre = Entidad[entidad.to_i]
+            id = entidad.rjust(2,0)
+            url = id+"-"+I18n.transliterate(nombre)
+          when /^\d+-([^\s]+)$/
+            # 09-distrito-federal < filename
+            id, nombre = entidad.split("-", 2)
+            url = entidad
+          end
         end
 
         data = fetch("distritos/#{url}/_todos.json")
