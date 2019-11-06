@@ -64,7 +64,7 @@ GEM
       ruby-rc4
       ttfunk
     r18n-core (2.0.3)
-    rack (1.6.0)
+    rack (1.6.11)
     rack-protection (1.5.3)
       rack
     rack-test (0.6.3)
